@@ -16,4 +16,36 @@ const createItem = async (item) => {
   }
 };
 
-module.exports = { createItem };
+// Function to get all items
+const getAllItems = async () => {
+  try {
+    const query = `
+        SELECT * 
+        FROM items;
+        `;
+    const { rows } = await db.query(query);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Function to get item by name
+const getItemByName = async (name) => {
+  try {
+    const query = `
+        SELECT *
+        FROM items
+        WHERE name = $1;
+        `;
+    const { rows } = await db.query(query, [name]);
+    if (rows.length === 0) {
+      return null; // item not found
+    }
+    return rows[0];
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { createItem, getAllItems, getItemByName };

@@ -1,42 +1,46 @@
-const express = require('express');
+const express = require("express");
 const apiRouter = express.Router();
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
-const volleyball = require('volleyball')
-apiRouter.use(volleyball)
+const volleyball = require("volleyball");
+apiRouter.use(volleyball);
 
 // TO BE COMPLETED - set `req.user` if possible, using token sent in the request header
 apiRouter.use(async (req, res, next) => {
-  const auth = req.header('Authorization');
-  
-  if (!auth) { 
-    next();
-  } 
-  else if (auth.startsWith('REPLACE_ME')) {
-    // TODO - Get JUST the token out of 'auth'
-    const token = 'REPLACE_ME';
-    
-    try {
-      const parsedToken = 'REPLACE_ME';
-      // TODO - Call 'jwt.verify()' to see if the token is valid. If it is, use it to get the user's 'id'. Look up the user with their 'id' and set 'req.user'
+  const auth = req.header("Authorization");
 
+  if (!auth) {
+    next();
+  } else if (auth.startsWith("Bearer ")) {
+    // TODO - Get JUST the token out of 'auth'
+    const token = auth.Header.substring(7);
+
+    try {
+      const parsedToken = jwt.verify(token, "luciouslocks");
+      // TODO - Call 'jwt.verify()' to see if the token is valid. If it is, use it to get the user's 'id'. Look up the user with their 'id' and set 'req.user'
+      req.user = parsedToken.user;
+      next();
     } catch (error) {
-      next(error);
+      next({
+        name: "Unauthorized Error",
+        message: "Invalid or expired token",
+      });
     }
-  } 
-  else {
+  } else {
     next({
-      name: 'AuthorizationHeaderError',
-      message: `Authorization token must start with 'Bearer'`
+      name: "AuthorizationHeaderError",
+      message: `Authorization token must start with 'Bearer'`,
     });
   }
 });
 
-const usersRouter = require('./users');
-apiRouter.use('/users', usersRouter);
+const usersRouter = require("./users");
+const itemsRouter = require("./items");
+apiRouter.use("/users", usersRouter);
+apiRouter.use("/items", itemsRouter);
 
 apiRouter.use((err, req, res, next) => {
-    res.status(500).send(err)
-  })
+  res.status(500).send(err);
+});
 
 module.exports = apiRouter;
