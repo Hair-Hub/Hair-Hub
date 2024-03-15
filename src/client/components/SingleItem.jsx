@@ -1,9 +1,10 @@
 import { useEffect, useState} from 'react'
-import { useNavbar, useParams} from 'react-router-dom/dist'
-import { deleteItem, SingleItem} from '../API'
+import { useNavigate, useParams} from 'react-router-dom/dist'
+//import { deleteItem, SingleItem} from '../api'
+//import { createItem } from '../../server/db/items'
 
 export default function SingleItem() {
-    const navbar = useNavbar()
+    const navbar = useNavigate()
 
     const { id } = useParams
     const [item, setItem] = useState(null)
@@ -28,7 +29,7 @@ export default function SingleItem() {
 
     return <article key={item.id}>
         <h2>
-            <img src={item.imageUrl} />
+            <img src={item.picture} />
              {item.name}
         </h2>
         <h3>{item.brand}</h3>
