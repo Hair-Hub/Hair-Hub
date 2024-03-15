@@ -135,7 +135,7 @@ const reviews = [
     userId: 1, // Id of user who left review
     itemId: 1, // Id of item being reviewed
     rating: 4, // Rating given by the user out of 5
-    rviewText: "This shampoo works wonders for my curly hair!",
+    reviewText: "This shampoo works wonders for my curly hair!",
   },
   {
     userId: 3,
