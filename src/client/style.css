@@ -16,3 +16,18 @@
 }
 
 /* Add more styling for other elements if needed */
+
+.navbar {
+  background-color: #FFF7ED;
+  display: flex;
+  justify-content: space-between;
+}
+
+body {
+  background-color: #D49C84;
+}
+
+.lotus {
+  height: 4rem;
+}
+
