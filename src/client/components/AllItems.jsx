@@ -1,35 +1,7 @@
-/*import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-//import { AllItems } from '../API'
-//import { createItem } from '../../server/db/items'
-import items from '../../server/db/seed'
-
-export default async function AllItems() {
-    const navigate = useNavigate()
-    const [products, setProducts] = useState([])
-    const [search, setSearch] = useState('')
-
-    useEffect(() => {
-        async function updateItems() {
-            try{
-                const products = await axios.get(items)
-                setProducts(products)
-            } catch (e) {
-                console.error(e)
-            }
-        }  
-            updateProducts()
-    }, [])
-
-    function searchHandler(e) {
-        console.log('e.target.value', e.target.value)
-        setSearch(e.target.value)
-    }
-    
-}*/
 
 import { useEffect, useState } from 'react';
 import axios from 'axios'
+import { Link } from 'react-router-dom';
 
 export default function AllItemsComponent() {
     
@@ -39,7 +11,7 @@ export default function AllItemsComponent() {
     useEffect(() => {
         const fetchItems = async () => {
             try {
-                const response = await axios.get('/api/items'); // Adjust the endpoint as needed
+                const response = await axios.get('/api/items'); 
                 console.log('items', response.data);
                 setItems(response.data);
             } catch (error) {
@@ -47,10 +19,10 @@ export default function AllItemsComponent() {
             }
         };
         fetchItems();
-    }, []); // Empty dependency array to run effect only once
+    }, []); 
 
     return (
-        <div>
+        <div className="container">
             <h1>All Items</h1>
             <input
                 type="text"
@@ -58,17 +30,22 @@ export default function AllItemsComponent() {
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search items..."
             />
-            <ul>
+            <div className="items-container">
                 {items.map((item) => (
-                    <li key={item.id}>
-                        <img src={item.picture} alt={item.name} />
-                        <h2>{item.name}</h2>
-                        <p>{item.description}</p>
-                        <p>Brand: {item.brand}</p>
-                        <p>Category: {item.category}</p>
-                    </li>
+                    <Link to= {`/item/${item.id}`} key={item.id}>
+                    <div className="item-card" key={item.id}>
+                        <img className="item-image" src={item.picture} alt={item.name} />
+                        <div className="item-details">
+                            <h2>{item.name}</h2>
+                            <p>{item.description}</p>
+                            <p>Brand: {item.brand}</p>
+                            <p>Category: {item.category}</p>
+                        </div>
+                    </div>
+                    </Link>
                 ))}
-            </ul>
+            </div>
         </div>
     );
+
 }

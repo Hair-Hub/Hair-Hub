@@ -1,7 +1,7 @@
 const express = require("express");
 const itemsRouter = express.Router();
 
-const { getAllItems, getItemByName } = require("../db/items");
+const { getAllItems, getItemByName, getItemById } = require("../db/items");
 
 // Route to get all items
 itemsRouter.get("/", async (req, res, next) => {
@@ -18,6 +18,21 @@ itemsRouter.get("/:name", async (req, res, next) => {
   try {
     const name = req.params.name;
     const item = await getItemByName(name);
+    if (!item) {
+      res.status(404).send("Item not found");
+    } else {
+      res.send(item);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Route to get item by ID
+itemsRouter.get("/:id", async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const item = await getItemById(id);
     if (!item) {
       res.status(404).send("Item not found");
     } else {
