@@ -1,17 +1,34 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
+
+import {Routes, Route} from 'react-router-dom'
 import Login from './components/Login';
+import NavBar from './components/navbar'
+import HomePage from './components/HomePage'
+//import AllItems from './components/AllItems'
+import SingleItem from './components/SingleItem'
+import AllItems from './components/AllItems'
+
+import './style.css'
 
 function App() {
-  const [count, setCount] = useState(0);
+ 
 
-  return (
-    <div className='App'>
-        <h1>Boilerplate</h1>
-        <img id='comp-img' src='./computer.png'></img>
-        <p>Replace the starter code in this template with something cool</p>
-        <Login />
-    </div>
+  return (<>
+    <div className='navbar'>
+      <h1>Hair Haven</h1>
+      <header>
+        <img className='lotus' src='https://www.pngfind.com/pngs/m/559-5596079_lotus-art-inspiration-vector-logo-design-download-pink.png'/>
+    </header>
+      <div>
+      <NavBar />
+      </div>
+      </div>
+    <Routes>
+      <Route path='/' element={<HomePage />}></Route>
+    <Route path='/login' element={<Login />} />
+    <Route path='/items' element={<AllItems/>} />
+    </Routes>
+    
+    </>
   );
 }
 
