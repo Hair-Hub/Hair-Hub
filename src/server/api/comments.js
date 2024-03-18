@@ -1,7 +1,12 @@
 const express = require("express");
 const commentsRouter = express.Router();
 
-const { createComment } = require("../db/comments");
+const {
+  createComment,
+  getCommentsByReviewId,
+  updateComment,
+  deleteComment,
+} = require("../db/comments");
 
 // Route to create comment
 commentsRouter.post("/", async (req, res, next) => {

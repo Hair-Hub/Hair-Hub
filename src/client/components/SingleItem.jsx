@@ -7,6 +7,8 @@ export default function SingleItem() {
   const [item, setItem] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,12 +24,21 @@ export default function SingleItem() {
         const commentsResponse = await Promise.all(reviewIds.map(reviewId => axios.get(`/api/comments/review/${reviewId}`)));
         setComments(commentsResponse.map(res => res.data).flat());
       } catch (error) {
-        console.error('Error fetching data:', error);
-        navigate('/');
+        setError('Error fetching data. Please try again later.');
+      } finally {
+        setLoading(false);
       }
     }
     fetchData();
-  }, [id, navigate]);
+  }, [id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div>

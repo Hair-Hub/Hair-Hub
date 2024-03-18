@@ -13,11 +13,11 @@ itemsRouter.get("/", async (req, res, next) => {
   }
 });
 
-// Route to get item by name
-itemsRouter.get("/:name", async (req, res, next) => {
+// Route to get item by ID
+itemsRouter.get("/:id", async (req, res, next) => {
   try {
-    const name = req.params.name;
-    const item = await getItemByName(name);
+    const id = req.params.id;
+    const item = await getItemById(id);
     if (!item) {
       res.status(404).send("Item not found");
     } else {
@@ -28,11 +28,11 @@ itemsRouter.get("/:name", async (req, res, next) => {
   }
 });
 
-// Route to get item by ID
-itemsRouter.get("/:id", async (req, res, next) => {
+// Route to get item by name
+itemsRouter.get("/name/:name", async (req, res, next) => {
   try {
-    const id = req.params.id;
-    const item = await getItemById(id);
+    const name = req.params.name;
+    const item = await getItemByName(name);
     if (!item) {
       res.status(404).send("Item not found");
     } else {
