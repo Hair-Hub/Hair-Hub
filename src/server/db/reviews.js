@@ -25,14 +25,15 @@ const getReviewsByItemId = async (itemId) => {
     FROM reviews
     WHERE itemId = $1;
     `;
-    const { rows } = await db.query(query, [itemId])
+    const { rows } = await db.query(query, [itemId]);
+    return rows;
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};
 
 // Function to update a review
-const updateReview = aysnc (reviewId, rating, reviewText) => {
+const updateReview = async (reviewId, rating, reviewText) => {
   try {
     const query = `
     UPDATE reviews
@@ -40,14 +41,13 @@ const updateReview = aysnc (reviewId, rating, reviewText) => {
     WHERE id = $3
     RETURNING *;
     `;
-    const values = [rating, reviewText, reviewId]
-    const { rows } = await db.query(query, values)
-    return rows[0]
-
+    const values = [rating, reviewText, reviewId];
+    const { rows } = await db.query(query, values);
+    return rows[0];
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};
 
 // Function to delete a review
 const deleteReview = async (reviewId) => {
@@ -57,12 +57,15 @@ const deleteReview = async (reviewId) => {
     WHERE id = $1;
 
     `;
-    await db.query(query, [reviewId])
-
+    await db.query(query, [reviewId]);
   } catch (error) {
-    throw (error)
+    throw error;
   }
-}
+};
 
-
-module.exports = { createReview, getReviewsByItemId, updateReview, deleteReview };
+module.exports = {
+  createReview,
+  getReviewsByItemId,
+  updateReview,
+  deleteReview,
+};
