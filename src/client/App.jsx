@@ -5,6 +5,7 @@ import NavBar from './components/navbar'
 import HomePage from './components/HomePage'
 //import AllItems from './components/AllItems'
 import SingleItem from './components/SingleItem'
+import AllItems from './components/AllItems'
 
 import './style.css'
 
@@ -24,7 +25,7 @@ function App() {
     <Routes>
       <Route path='/' element={<HomePage />}></Route>
     <Route path='/login' element={<Login />} />
-    <Route path='/item' element={<SingleItem/>} />
+    <Route path='/items' element={<AllItems/>} />
     </Routes>
     
     </>
