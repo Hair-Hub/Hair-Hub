@@ -21,13 +21,24 @@
   background-color: #FFF7ED;
   display: flex;
   justify-content: space-between;
+
+}
+
+.links {
+  display: flex;
+  justify-content: space-between;
 }
 
 body {
-  background-color: #D49C84;
+  background-color: #CA734D;
 }
 
 .lotus {
   height: 4rem;
 }
 
+.item-card {
+  background-color: #FFF7ED;
+  border-radius: 8px;
+  padding: 8px;
+}

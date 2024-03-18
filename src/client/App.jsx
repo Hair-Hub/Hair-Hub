@@ -14,7 +14,7 @@ function App() {
 
   return (<>
     <div className='navbar'>
-      <h1>Hair Haven</h1>
+      <h1 href='/'>Hair Haven</h1>
       <header>
         <img className='lotus' src='https://www.pngfind.com/pngs/m/559-5596079_lotus-art-inspiration-vector-logo-design-download-pink.png'/>
     </header>
