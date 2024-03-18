@@ -9,6 +9,7 @@
 .App-header {
   margin-bottom: 20px;
   font-size: 24px;
+  
 }
 
 #comp-img{
@@ -37,8 +38,3 @@ body {
   height: 4rem;
 }
 
-.item-card {
-  background-color: #FFF7ED;
-  border-radius: 8px;
-  padding: 8px;
-}

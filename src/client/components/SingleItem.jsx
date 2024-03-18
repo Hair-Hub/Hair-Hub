@@ -1,39 +1,61 @@
-import { useEffect, useState} from 'react'
-import { useNavigate, useParams} from 'react-router-dom/dist'
-//import { deleteItem, SingleItem} from '../api'
-//import { createItem } from '../../server/db/items'
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function SingleItem() {
-    const navbar = useNavigate()
+  const { id } = useParams();
+  const [item, setItem] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [comments, setComments] = useState([]);
+  const navigate = useNavigate();
 
-    const { id } = useParams
-    const [item, setItem] = useState(null)
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const itemResponse = await axios.get(`/api/items/${id}`);
+        setItem(itemResponse.data);
 
-    useEffect(() => {
-        async function updateItem() {
-            try {
-                const item = await SingleItem(id)
-                setItem(item)
-            } catch (e) {
-                console.error(e)
-            }
-        }
-        updateItem()
-    }, [])
+        const reviewsResponse = await axios.get(`/api/reviews/item/${id}`);
+        setReviews(reviewsResponse.data);
 
-    async function deleteHandler(itemId) {
-        await deleteItem(itemId)
-
-        navbar('/')
+        const reviewIds = reviewsResponse.data.map(review => review.id);
+        const commentsResponse = await Promise.all(reviewIds.map(reviewId => axios.get(`/api/comments/review/${reviewId}`)));
+        setComments(commentsResponse.map(res => res.data).flat());
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        navigate('/');
+      }
     }
+    fetchData();
+  }, [id, navigate]);
 
-    return <article key={item.id}>
-        <h2>
-            <img src={item.picture} />
-             {item.name}
-        </h2>
-        <h3>{item.brand}</h3>
-        <button onClick={() => deleteHandler(id)}>DELETE!</button>
-    </article>
-
+  return (
+    <div>
+      {item && (
+        <article key={item.id}>
+          <h2>{item.name}</h2>
+          <p>Brand: {item.brand}</p>
+          <p>Description: {item.description}</p>
+        </article>
+      )}
+      <h3>Reviews</h3>
+      <ul>
+        {reviews.map(review => (
+          <li key={review.id}>
+            <p>Rating: {review.rating}</p>
+            <p>{review.reviewText}</p>
+            <h4>Comments</h4>
+            <ul>
+              {comments
+                .filter(comment => comment.reviewId === review.id)
+                .map(comment => (
+                  <li key={comment.id}>{comment.commentText}</li>
+                ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
+

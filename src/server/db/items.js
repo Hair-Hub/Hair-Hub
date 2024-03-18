@@ -48,4 +48,22 @@ const getItemByName = async (name) => {
   }
 };
 
-module.exports = { createItem, getAllItems, getItemByName };
+// Function to get item by ID
+const getItemById = async (id) => {
+  try {
+    const query = `
+    SELECT *
+    FROM items
+    WHERE id = $1;
+    `;
+    const { rows } = await db.query(query, [id]);
+    if (rows.length === 0) {
+      return null;
+    }
+    return rows[0];
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { createItem, getAllItems, getItemByName, getItemById };
