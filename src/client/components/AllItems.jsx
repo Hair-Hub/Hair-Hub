@@ -1,33 +1,3 @@
-/*import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-//import { AllItems } from '../API'
-//import { createItem } from '../../server/db/items'
-import items from '../../server/db/seed'
-
-export default async function AllItems() {
-    const navigate = useNavigate()
-    const [products, setProducts] = useState([])
-    const [search, setSearch] = useState('')
-
-    useEffect(() => {
-        async function updateItems() {
-            try{
-                const products = await axios.get(items)
-                setProducts(products)
-            } catch (e) {
-                console.error(e)
-            }
-        }  
-            updateProducts()
-    }, [])
-
-    function searchHandler(e) {
-        console.log('e.target.value', e.target.value)
-        setSearch(e.target.value)
-    }
-    
-}*/
-
 import { useEffect, useState } from 'react';
 import axios from 'axios'
 
@@ -35,7 +5,7 @@ export default function AllItemsComponent() {
     
     const [items, setItems] = useState([]);
     const [search, setSearch] = useState('');
-
+    
     useEffect(() => {
         const fetchItems = async () => {
             try {
@@ -48,21 +18,44 @@ export default function AllItemsComponent() {
         };
         fetchItems();
     }, []); // Empty dependency array to run effect only once
-
+    
+    //const button = document.createElement('button')
+   // button.innerText = 'Search'
+    //button.id = 'searchButton'
+   // document.body.appendChild(button)
+    
     return (
         <div>
-            <h1>All Items</h1>
-            <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search items..."
-            />
+            <h1>Product Gallery</h1>
+            <div class="search-bar">
+                <input
+                    id='search'
+                    type="search"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="What are you looking for..."
+                    list='search-suggestions'
+                    autoComplete='on'
+                />
+                <datalist id='search-suggestions'>
+                    <option value='shampoo'></option>
+                    <option value='conditioner'></option>
+                    <option value='gel'></option>
+                </datalist>
+
+                <div class='search-button'>
+                <button>Search</button>
+                </div>
+                
+
+            </div>
+
             <ul>
                 {items.map((item) => (
                     <li key={item.id}>
+                        <h2 onClick={() => Navigate('/items/${item.id}')}>
                         <img src={item.picture} alt={item.name} />
-                        <h2>{item.name}</h2>
+                        {item.name}</h2>
                         <p>{item.description}</p>
                         <p>Brand: {item.brand}</p>
                         <p>Category: {item.category}</p>
