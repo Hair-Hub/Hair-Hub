@@ -3,6 +3,7 @@ const reviewsRouter = express.Router();
 
 const {
   getReviewsByItemId,
+  getReviewsWithComments,
   createReview,
   updateReview,
   deleteReview,
@@ -23,8 +24,25 @@ reviewsRouter.get("/item/:itemId", async (req, res, next) => {
   }
 });
 
+// Route to get reviews by item ID along with comments
+reviewsRouter.get("/item/:itemId/with-comments", async (req, res, next) => {
+  try {
+    const itemId = req.params.itemId;
+    const reviewsWithComments = await getReviewsWithComments(itemId);
+    if (!reviewsWithComments || reviewsWithComments.length === 0) {
+      res
+        .status(404)
+        .setDefaultEncoding("Reviews not found for specified item");
+    } else {
+      res.send(reviewsWithComments);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 // Route to create a review
-reviewsRouter.post("/item/:itemId", async (req, res, next) => {
+reviewsRouter.post("/item/:id", async (req, res, next) => {
   try {
     const { userId, rating, reviewText } = req.body;
     const itemId = req.params.itemId;

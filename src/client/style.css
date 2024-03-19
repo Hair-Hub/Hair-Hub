@@ -9,14 +9,11 @@
 .App-header {
   margin-bottom: 20px;
   font-size: 24px;
-  
 }
 
-#comp-img{
+#comp-img {
   width: 250px;
 }
-
-/* Add more styling for other elements if needed */
 
 .navbar {
   background-color: #FFF7ED;
@@ -90,7 +87,6 @@ body {
 
 .item-details h2 {
   margin-top: 0;
-
 }
 
 .item-details p {
@@ -101,14 +97,85 @@ body {
   transform: translateY(0);
 }
 
+/* Add styles for reviews and comments container */
+.reviews-comments-container {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+}
+
+/* Add styles for the comment form */
+.comment-form {
+  margin-top: 20px;
+}
+
+.comment-form textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.comment-form button {
+  padding: 10px 20px;
+  background-color: #CA734D;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.comment-form button:hover {
+  background-color: #AF5236;
+}
+
+/* Add styles for the reviews form */
+.reviews-form {
+  margin-top: 20px;
+}
+
+.reviews-form input[type="number"] {
+  width: 100px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.reviews-form textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.reviews-form button {
+  padding: 10px 20px;
+  background-color: #CA734D;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.reviews-form button:hover {
+  background-color: #AF5236;
+}
+
 @media (max-width: 768px) {
   .item-card {
-      flex-basis: calc(50% - 20px); 
+    flex-basis: calc(50% - 20px); 
   }
 }
 
 @media (max-width: 480px) {
   .item-card {
-      flex-basis: calc(100% - 20px); 
+    flex-basis: calc(100% - 20px); 
   }
 }
+

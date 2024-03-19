@@ -39,6 +39,7 @@ const users = [
 
 const items = [
   {
+    id: 1,
     name: "Kristin Ess Curl Shampoo",
     brand: "Kristin Ess",
     category: "Shampoo",
@@ -48,6 +49,7 @@ const items = [
       "https://www.kristinesshair.com/cdn/shop/products/curlsham1.png?v=1621021050&width=470",
   },
   {
+    id: 2,
     name: "Kristin Ess Curl Conditioner",
     brand: "Kristin Ess",
     category: "Conditioner",
@@ -57,6 +59,7 @@ const items = [
       "https://www.kristinesshair.com/cdn/shop/products/curlcondition1.png?v=1621021094&width=470",
   },
   {
+    id: 3,
     name: "Coconut Castaway",
     brand: "Dr.Squatch",
     category: "Shampoo",
@@ -66,6 +69,7 @@ const items = [
       "https://www.drsquatch.com/cdn/shop/files/coconutcastaway-7.png?v=1683091341&width=400",
   },
   {
+    id: 4,
     name: "Renpure Biotin & Collagen Thickening Hair Shampoo",
     brand: "Renpure",
     category: "Shampoo",
@@ -75,6 +79,7 @@ const items = [
       "https://www.renpure.com/wp-content/uploads/2019/10/Adv_BiotinCollagen_Shampoo_32oz_EN_FRONT_Web.png",
   },
   {
+    id: 5,
     name: "Fresh Falls",
     brand: "Dr.Squatch",
     category: "Conditioner",
@@ -84,6 +89,7 @@ const items = [
       "https://www.drsquatch.com/cdn/shop/products/2021_Q3_DrSquatch_ProductPhotos_HairCareBottles_IMG_3190_93eccf54-3ee9-4283-aac6-d3ac3c2063ea.png?v=1633997453&width=400",
   },
   {
+    id: 6,
     name: "Renpure Biotin & Collagen Thickening Conditioner",
     brand: "Renpure",
     category: "Conditioner",
@@ -93,6 +99,7 @@ const items = [
       "https://i.pinimg.com/736x/16/6a/38/166a3882809ff6379252046bc0cd768e--biotin-collagen.jpg",
   },
   {
+    id: 7,
     name: "OGX Renewing + Argan Oil of Morocco Shampoo",
     brand: "OGX",
     category: "Shampoo",
@@ -102,6 +109,7 @@ const items = [
       "https://ogxbeauty.com/wp-content/uploads/2021/09/argan-oil-morocco-shampoo-13z-1.jpg",
   },
   {
+    id: 8,
     name: "Suave Professionals Moisturizing Shampoo",
     brand: "Suave",
     category: "Shampoo",
@@ -111,6 +119,7 @@ const items = [
       "https://www.suave.com/cdn/shop/files/107131338-079400066619-01.png.rendition.767.767_550x.png?v=1698337904",
   },
   {
+    id: 9,
     name: "TRESemmé Moisture Rich Shampoo",
     brand: "TRESemmé",
     category: "Shampoo",
@@ -120,6 +129,7 @@ const items = [
       "https://cdn.sanity.io/images/4nopozul/tresemme-staging-us/bc5a32a122a39ed59bd3547e39f4748adc6ab5cd-5000x5000.tif?w=450&h=450&fit=fill&auto=format&q=80&bg=fff",
   },
   {
+    id: 10,
     name: "L'Oréal Paris Elvive Total Repair 5 Repairing Shampoo",
     brand: "L'Oréal Paris",
     category: "Shampoo",
@@ -132,42 +142,49 @@ const items = [
 
 const reviews = [
   {
+    id: 1,
     userId: 1, // Id of user who left review
     itemId: 1, // Id of item being reviewed
     rating: 4, // Rating given by the user out of 5
     reviewText: "This shampoo works wonders for my curly hair!",
   },
   {
+    id: 2,
     userId: 3,
     itemId: 2,
     rating: 5,
     reviewText: "Love this conditioner, it really defines my curls",
   },
   {
+    id: 3,
     userId: 3,
     itemId: 9,
     rating: 4,
     reviewText: "Provides good hydration for my hair. Will buy again.",
   },
   {
+    id: 4,
     userId: 4,
     itemId: 10,
     rating: 4,
     reviewText: "Leaves my hair feeling stronger and healthier. Great product!",
   },
   {
+    id: 5,
     userId: 1,
     itemId: 7,
     rating: 5,
     reviewText: "My hair feels so smooth and shiny after using this shampoo!",
   },
   {
+    id: 6,
     userId: 2,
     itemId: 8,
     rating: 3,
     reviewText: "Decent shampoo, but didn't do much for my dry scalp.",
   },
   {
+    id: 7,
     userId: 3,
     itemId: 3,
     rating: 3,
@@ -175,12 +192,14 @@ const reviews = [
       "The scent of this shampoo is nice, but it didn't do much for my hair.",
   },
   {
+    id: 8,
     userId: 4,
     itemId: 4,
     rating: 4,
     reviewText: "Great shampoo for adding volume to my fine hair.",
   },
   {
+    id: 9,
     userId: 5,
     itemId: 5,
     rating: 5,
@@ -188,6 +207,7 @@ const reviews = [
       "Love the masculine scent of this conditioner. Leaves my hair soft and hydrated.",
   },
   {
+    id: 10,
     userId: 6,
     itemId: 6,
     rating: 2,
@@ -198,54 +218,64 @@ const reviews = [
 
 const comments = [
   {
+    id: 1,
     userId: 2, // Replying user
     reviewId: 1, // Id of review being replied to
     commentText: "That's great to hear! I might try it for my curls too.",
   },
   {
+    id: 2,
     userId: 1,
     reviewId: 2,
     commentText: "Thanks for your feedback! We're glad you love it.",
   },
   {
+    id: 3,
     userId: 3,
     reviewId: 3,
     commentText:
       "We appreciate your support! Let us know if you need anything else.",
   },
   {
+    id: 4,
     userId: 1,
     reviewId: 4,
     commentText: "So happy to hear that! Thanks for sharing your experience.",
   },
   {
+    id: 5,
     userId: 4,
     reviewId: 5,
     commentText:
       "That's fantastic! We aim to provide the best experience for our customers.",
   },
   {
+    id: 6,
     userId: 6,
     reviewId: 6,
     commentText:
       "We're sorry to hear that. Perhaps another product might work better for you.",
   },
   {
+    id: 7,
     userId: 5,
     reviewId: 7,
     commentText: "Thank you for your honest feedback. We'll take note of that.",
   },
   {
+    id: 8,
     userId: 1,
     reviewId: 8,
     commentText: "We're thrilled that you're satisfied with the results!",
   },
   {
+    id: 9,
     userId: 3,
     reviewId: 9,
     commentText: "That's wonderful! We're delighted you enjoy the scent.",
   },
   {
+    id: 10,
     userId: 2,
     reviewId: 10,
     commentText:

@@ -35,7 +35,7 @@ commentsRouter.get("/review/:reviewId", async (req, res, next) => {
 });
 
 // Route to update a comment
-commentsRouter.put(":/commentId", async (req, res, next) => {
+commentsRouter.put("/commentId", async (req, res, next) => {
   try {
     const { commentText } = req.body;
     const commentId = req.params.commentId;
