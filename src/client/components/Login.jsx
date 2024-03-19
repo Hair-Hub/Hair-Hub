@@ -15,7 +15,7 @@ const Login = () => {
 
   const login = async() => {
     try {
-        const response = await fetch('http://localhost:3000/api/users/login', {
+        const response = await fetch('/api/users', {
             method: 'POST',
             headers: {
                 'Content-Type' : 'application/json'
@@ -43,12 +43,15 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
+    <div className='FormContainer'>
+      <div className='formCard'>
+      <div>
+      <h1>Login</h1>
+      <form className='loginForm' onSubmit={handleSubmit}>
         <div>
           <label htmlFor='email'>Email:</label>
           <input
+          className='login'
             type='email'
             id='email'
             value={email}
@@ -59,6 +62,7 @@ const Login = () => {
         <div>
           <label htmlFor='password'>Password:</label>
           <input
+          className='password'
             type='password'
             id='password'
             value={password}
@@ -66,10 +70,15 @@ const Login = () => {
             required
           />
         </div>
-        <button type='submit'>Login</button>
+        <button className='subButton' type='submit'>Login</button>
       </form>
+      <a href='/login/register'><button>Sign Up</button></a>
       <p>{message}</p>
     </div>
+    </div>
+    </div>
+    
+    
   );
 };
 

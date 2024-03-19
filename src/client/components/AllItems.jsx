@@ -25,6 +25,7 @@ export default function AllItemsComponent() {
         <div className="container">
             <h1>All Items</h1>
             <input
+                className='searchBar'
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
