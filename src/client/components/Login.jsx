@@ -32,8 +32,19 @@ const Login = () => {
         }
         setEmail('');
         setPassword('');
-    } catch (err) {
-        console.error(`${err.name}: ${err.message}`);
+    } catch (error) {
+      
+      if (error.response) {
+        console.log('Server responded with non-success status code');
+        console.log('Status:', error.response.status);
+        console.log('Data:', error.response.data);
+      } else if (error.request) {
+        console.log('Request made but no response received');
+        console.log('Request:', error.request);
+      } else {
+        console.log('Error setting up request');
+        console.log('Error:', error.message);
+      }
     }
   }
 

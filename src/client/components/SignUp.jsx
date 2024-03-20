@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useState } from 'react'
 
 const SignUp = ({ setToken }) => {
-    const [username, setUsername] = useState('')
+    const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -11,24 +11,37 @@ const SignUp = ({ setToken }) => {
 
         try {
             const response = await axios.post('/api/users', {
-                name: username,
-                email: email,
-                password: password,
+                name,
+                email,
+                password
             });
             const data = response.data;
             console.log(data);
             
             setToken(data.token);
-            
+            setName('')
+            setEmail('')
+            setPassword('')
         } catch(error) {
-            console.error(error)
-        }
+            // Handle error response
+            if (error.response) {
+              console.log('Server responded with non-success status code');
+              console.log('Status:', error.response.status);
+              console.log('Data:', error.response.data);
+            } else if (error.request) {
+              console.log('Request made but no response received');
+              console.log('Request:', error.request);
+            } else {
+              console.log('Error setting up request');
+              console.log('Error:', error.message);
+            }
+          }
     }
 
     return (
         <form onSubmit={handleSubmit}>
             <label>Name</label>
-           <input type='text' value={username} onChange={(e) => setUsername(e.target.value)}></input>
+           <input type='text' value={name} onChange={(e) => setName(e.target.value)}></input>
            <label>Email</label>
            <input type='email' value={email} onChange={(e) => setEmail(e.target.value)}></input>
            <label>Password</label>

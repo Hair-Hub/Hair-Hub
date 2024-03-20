@@ -22,15 +22,24 @@ export default function AllItemsComponent() {
     }, []); 
 
     return (
-        <div className="container">
-            <h1>All Items</h1>
+        <div className="search-bar">
+            <h1>Product Gallery</h1>
             <input
-                className='searchBar'
+                id='search'
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search items..."
+                placeholder="What are you looking for..."
+                list="search-suggestions"
+                autoComplete="off"
             />
+            <list id="search-suggestions">
+                <option value="shampoo"></option>
+                <option value="conditioner"></option>
+            </list>
+        
+      
+
             <div className="items-container">
                 {items.map((item) => (
                     <Link to= {`/item/${item.id}`} key={item.id}>
