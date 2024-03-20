@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 export default function SingleItem() {
@@ -15,10 +15,10 @@ export default function SingleItem() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const itemResponse = await axios.get(`/api/items/${id}`);
+        const itemResponse = await axios.get(`/api/item/${id}`);
         setItem(itemResponse.data);
 
-        const reviewsWithCommentsResponse = await axios.get(`/api/reviews/item/${id}`);
+        const reviewsWithCommentsResponse = await axios.get(`/api/reviews/item/${id}/with-comments`);
         setReviewsWithComments(reviewsWithCommentsResponse.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -34,7 +34,7 @@ export default function SingleItem() {
     e.preventDefault();
     try {
       const response = await axios.post(`/api/reviews/item/${id}`, { reviewText });
-      setReviews([...reviews, response.data]);
+      setReviews([...reviewsWithComments, response.data]);
       setReviewText('');
     } catch (error) {
       console.error('Error submitting review:', error);
@@ -46,7 +46,7 @@ export default function SingleItem() {
     try {
       const response = await axios.post(`/api/comments/review/${reviewId}`, { commentText });
       const updatedReviewsWithComments = reviewsWithComments.map(review => {
-        if (review.reviewId === reviewId) {
+        if (review.id === reviewId) {
             return {
                 ...review,
                 comments: [...review.comments, response.data]
@@ -84,9 +84,9 @@ export default function SingleItem() {
         <h3>Reviews</h3>
         <ul>
           {reviewsWithComments.map(review => (
-            <li key={review.reviewId}>
+            <li key={review.id}>
               <p>Rating: {review.rating}</p>
-              <p>{review.reviewText}</p>
+              <p>{review.reviewtext}</p>
               <h4>Comments</h4>
               <ul>
                 {review.comments && review.comments.map(comment => (

@@ -34,6 +34,17 @@ commentsRouter.get("/review/:reviewId", async (req, res, next) => {
   }
 });
 
+commentsRouter.post("/review/:reviewId", async (req, res, next) => {
+  try {
+    const { userId, commentText } = req.body;
+    const reviewId = req.params.reviewId;
+    const comment = await createComment({ userId, reviewId, commentText });
+    res.status(201).json(comment);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // Route to update a comment
 commentsRouter.put("/commentId", async (req, res, next) => {
   try {

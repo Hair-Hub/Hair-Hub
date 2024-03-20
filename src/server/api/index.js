@@ -44,6 +44,7 @@ apiRouter.use("/reviews", reviewsRouter);
 apiRouter.use("/comments", commentsRouter);
 
 apiRouter.use((err, req, res, next) => {
+  console.error(err);
   res.status(500).send(err);
 });
 
