@@ -1,5 +1,6 @@
 
 import {Routes, Route} from 'react-router-dom'
+import {useState} from 'react'
 import Login from './components/Login';
 import NavBar from './components/navbar'
 import HomePage from './components/HomePage'
@@ -27,7 +28,7 @@ function App() {
       <Route path='/' element={<HomePage />}></Route>
     <Route path='/login' element={<Login />} />
     <Route path='/items' element={<AllItems/>} />
-    <Route path ='/item/:id' element={<SingleItem/>} />
+    <Route path ='/items/:id' element={<SingleItem/>} />
     <Route path ='/login/register' element={<SignUp/>} />
     </Routes>
     

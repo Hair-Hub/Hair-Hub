@@ -15,7 +15,7 @@ export default function SingleItem() {
         const itemResponse = await axios.get(`/api/items/${id}`);
         setItem(itemResponse.data);
 
-        const reviewsResponse = await axios.get(`/api/reviews/item/${id}`);
+        const reviewsResponse = await axios.get(`/api/reviews/items/${id}`);
         setReviews(reviewsResponse.data);
 
         const reviewIds = reviewsResponse.data.map(review => review.id);

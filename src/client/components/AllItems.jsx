@@ -33,16 +33,18 @@ export default function AllItemsComponent() {
                 list="search-suggestions"
                 autoComplete="off"
             />
-            <list id="search-suggestions">
+            <datalist id="search-suggestions">
                 <option value="shampoo"></option>
                 <option value="conditioner"></option>
-            </list>
+            </datalist>
         
-      
+            <div className='search-button'>
+                <button>Search</button>
+            </div>
 
             <div className="items-container">
                 {items.map((item) => (
-                    <Link to= {`/item/${item.id}`} key={item.id}>
+                    <Link to= {`/items/${item.id}`} key={item.id}>
                     <div className="item-card" key={item.id}>
                         <img className="item-image" src={item.picture} alt={item.name} />
                         <div className="item-details">

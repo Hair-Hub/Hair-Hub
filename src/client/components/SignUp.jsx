@@ -10,7 +10,7 @@ const SignUp = ({ setToken }) => {
         event.preventDefault();
 
         try {
-            const response = await axios.post('/api/users', {
+            const response = await axios.post('/api/users/register', {
                 name,
                 email,
                 password
