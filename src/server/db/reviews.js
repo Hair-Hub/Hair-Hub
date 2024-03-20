@@ -4,45 +4,51 @@ const db = require("./client");
 const getReviewsByItemId = async (itemId) => {
   try {
     const query = `
-    SELECT *
-    FROM reviews
-    WHERE itemId = $1;
-    `;
-    const { rows } = await db.query(query, [itemId]);
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-};
-
-// Function to get reviews with comments
-const getReviewsWithComments = async (itemId) => {
-  try {
-    const query = `
-    SELECT
+    SELECT 
       reviews.id AS reviewId,
       reviews.rating,
       reviews.reviewText,
-      users.name AS reviewerName,
-      comments.commentText,
-      comments.userId AS commenterId,
-      comments.reviewId
-    FROM
-      reviews
+      users.name AS reviewerName
+    FROM reviews
     JOIN
       users ON reviews.userId = users.id
-    LEFT JOIN
-      comments ON reviews.id = comments.reviewId
-    WHERE
-      reviews.itemId = $1;
+    WHERE reviews.itemId = $1;
     `;
     const { rows } = await db.query(query, [itemId]);
-
     return rows;
   } catch (error) {
     throw error;
   }
 };
+
+// // Function to get reviews with comments
+// const getReviewsWithComments = async (itemId) => {
+//   try {
+//     const query = `
+//     SELECT
+//       reviews.id AS reviewId,
+//       reviews.rating,
+//       reviews.reviewText,
+//       users.name AS reviewerName,
+//       comments.commentText,
+//       comments.userId AS commenterId,
+//       comments.reviewId
+//     FROM
+//       reviews
+//     JOIN
+//       users ON reviews.userId = users.id
+//     LEFT JOIN
+//       comments ON reviews.id = comments.reviewId
+//     WHERE
+//       reviews.itemId = $1;
+//     `;
+//     const { rows } = await db.query(query, [itemId]);
+
+//     return rows;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 // Function to get a single review by its ID
 const getReviewById = async (reviewId) => {
@@ -74,16 +80,16 @@ const getCommentsForReview = async (reviewId) => {
   }
 };
 
-// Function to get a single review along with its comments
-const getReviewWithComments = async (reviewId) => {
-  try {
-    const review = await getReviewById(reviewId);
-    const comments = await getCommentsForReview(reviewId);
-    return { review, comments };
-  } catch (error) {
-    throw error;
-  }
-};
+// // Function to get a single review along with its comments
+// const getReviewWithComments = async (reviewId) => {
+//   try {
+//     const review = await getReviewById(reviewId);
+//     const comments = await getCommentsForReview(reviewId);
+//     return { review, comments };
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 // Function to create a review
 const createReview = async ({ userId, itemId, rating, reviewText }) => {
@@ -139,8 +145,6 @@ module.exports = {
   getReviewsByItemId,
   updateReview,
   deleteReview,
-  getReviewsWithComments,
   getCommentsForReview,
   getReviewById,
-  getReviewWithComments,
 };

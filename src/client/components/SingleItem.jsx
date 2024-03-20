@@ -15,10 +15,10 @@ export default function SingleItem() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const itemResponse = await axios.get(`/api/item/${id}`);
+        const itemResponse = await axios.get(`/api/items/${id}`);
         setItem(itemResponse.data);
 
-        const reviewsWithCommentsResponse = await axios.get(`/api/reviews/item/${id}/with-comments`);
+        const reviewsWithCommentsResponse = await axios.get(`/api/reviews/${id}`);
         setReviewsWithComments(reviewsWithCommentsResponse.data);
       } catch (error) {
         console.error('Error fetching data:', error);
