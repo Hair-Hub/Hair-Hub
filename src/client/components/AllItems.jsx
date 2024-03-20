@@ -7,7 +7,7 @@ export default function AllItemsComponent() {
     
     const [items, setItems] = useState([]);
     const [search, setSearch] = useState('');
-
+    
     useEffect(() => {
         const fetchItems = async () => {
             try {
