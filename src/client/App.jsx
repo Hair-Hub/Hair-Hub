@@ -7,6 +7,7 @@ import SingleItem from './components/SingleItem'
 import AllItems from './components/AllItems'
 
 import './style.css'
+import './single-items.css'
 
 function App() {
  
