@@ -34,7 +34,7 @@ export default function SingleItem() {
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`/api/reviews/${id}`, { reviewText });
+      const response = await axios.post(`/api/reviews/item/${id}`, { reviewText });
       setReviews([...reviews, response.data]);
       setReviewText('');
     } catch (error) {
@@ -52,7 +52,7 @@ export default function SingleItem() {
         }
       const response = await axios.post(`/api/comments/review/${reviewId}`, { commentText });
       const updatedReviews = reviews.map(review => {
-        if (review.reviewId === reviewId) {
+        if (review.reviewid === reviewId) {
             return {
                 ...review,
                 comments: [...review.comments, response.data]
@@ -97,12 +97,12 @@ export default function SingleItem() {
               <h4>Comments</h4>
               <ul>
                 {review.comments && review.comments.map(comments => (
-                    <li key={comments.commentId}>{comments.commentText}</li>
+                    <li key={comments.id}>{comments.commenttext}</li>
                   ))}
               </ul>
               <form onSubmit={(e) => {
                 console.log("Review ID:", review.id) 
-                handleCommentSubmit(review.reviewId, e)
+                handleCommentSubmit(review.reviewid, e)
                 }}>
                 <textarea
                   value={commentText}
