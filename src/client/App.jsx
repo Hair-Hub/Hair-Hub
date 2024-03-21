@@ -7,6 +7,7 @@ import HomePage from './components/HomePage'
 import AllItems from './components/AllItems'
 import SingleItem from './components/SingleItem'
 import SignUp from './components/SignUp'
+import Account from './components/Account'
 
 
 import './style.css'
@@ -26,6 +27,7 @@ function App() {
       </div>
     <Routes>
       <Route path='/' element={<HomePage />}></Route>
+      <Route path='/Account' element={<Account />} />
     <Route path='/login' element={<Login />} />
     <Route path='/items' element={<AllItems/>} />
     <Route path ='/items/:id' element={<SingleItem/>} />

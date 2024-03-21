@@ -24,8 +24,8 @@ const SignUp = ({ setToken }) => {
             setPassword('')
         } catch(error) {
             // Handle error response
-            if (error.response) {
-              console.log('Server responded with non-success status code');
+           if (error.response) {
+             console.log('Server responded with non-success status code');
               console.log('Status:', error.response.status);
               console.log('Data:', error.response.data);
             } else if (error.request) {
