@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 export default function SingleItem() {
   const { id } = useParams();
@@ -9,12 +9,15 @@ export default function SingleItem() {
   const [error, setError] = useState('');
   const [reviewText, setReviewText] = useState('');
   const [commentText, setCommentText] = useState('');
+  
+
   useEffect(() => {
     async function fetchData() {
       try {
         const itemResponse = await axios.get(`/api/items/${id}`);
         setItem(itemResponse.data);
-        const reviewsWithCommentsResponse = await axios.get(`/api/reviews/item/${id}`);
+
+        const reviewsWithCommentsResponse = await axios.get(`/api/reviews/${id}`);
         setReviewsWithComments(reviewsWithCommentsResponse.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -25,22 +28,24 @@ export default function SingleItem() {
     }
     fetchData();
   }, [id]);
+
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(`/api/reviews/item/${id}`, { reviewText });
-      setReviews([...reviews, response.data]);
+      setReviews([...reviewsWithComments, response.data]);
       setReviewText('');
     } catch (error) {
       console.error('Error submitting review:', error);
     }
   };
+
   const handleCommentSubmit = async (reviewId, e) => {
     e.preventDefault();
     try {
       const response = await axios.post(`/api/comments/review/${reviewId}`, { commentText });
       const updatedReviewsWithComments = reviewsWithComments.map(review => {
-        if (review.reviewId === reviewId) {
+        if (review.id === reviewId) {
             return {
                 ...review,
                 comments: [...review.comments, response.data]
@@ -54,12 +59,15 @@ export default function SingleItem() {
       console.error('Error submitting comment:', error);
     }
   };
+
   if (loading) {
     return <div>Loading...</div>;
   }
+
   if (error) {
     return <div>{error}</div>;
   }
+
   return (
     <div>
       {item && (
@@ -70,13 +78,14 @@ export default function SingleItem() {
           <p>Description: {item.description}</p>
         </article>
       )}
+      
       <div className="reviews-comments-container">
         <h3>Reviews</h3>
         <ul>
           {reviewsWithComments.map(review => (
-            <li key={review.reviewId}>
+            <li key={review.id}>
               <p>Rating: {review.rating}</p>
-              <p>{review.reviewText}</p>
+              <p>{review.reviewtext}</p>
               <h4>Comments</h4>
               <ul>
                 {review.comments && review.comments.map(comment => (
@@ -95,6 +104,7 @@ export default function SingleItem() {
           ))}
         </ul>
       </div>
+
       {/* Review Submission Form */}
       <form onSubmit={handleReviewSubmit}>
         <textarea
@@ -107,3 +117,7 @@ export default function SingleItem() {
     </div>
   );
 }
+
+
+
+

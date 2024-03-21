@@ -3,20 +3,42 @@ const reviewsRouter = express.Router();
 
 const {
   getReviewsByItemId,
+  getReviewsWithComments,
+  getCommentsForReview,
+  getReviewWithComments,
   createReview,
   updateReview,
   deleteReview,
+  getReviewById,
 } = require("../db/reviews");
 
-// Route to get reviews by item ID
-reviewsRouter.get("/item/:itemId", async (req, res, next) => {
+// Route to get single review by ID along with comments
+reviewsRouter.get("/:itemId", async (req, res, next) => {
   try {
     const itemId = req.params.itemId;
     const reviews = await getReviewsByItemId(itemId);
-    if (!reviews || reviews.length === 0) {
-      res.status(404).send("review's not found for specified item");
+
+    for (let review of reviews) {
+      const comments = await getCommentsForReview(review.reviewid);
+      review.comments = comments;
+    }
+    res.send(reviews);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Route to get reviews by item ID along with comments
+reviewsRouter.get("/item/:itemId/with-comments", async (req, res, next) => {
+  try {
+    const itemId = req.params.itemId;
+    const reviewsWithComments = await getReviewsWithComments(itemId);
+    if (!reviewsWithComments || reviewsWithComments.length === 0) {
+      res
+        .status(404)
+        .setDefaultEncoding("Reviews not found for specified item");
     } else {
-      res.send(reviews);
+      res.send(reviewsWithComments);
     }
   } catch (error) {
     next(error);
