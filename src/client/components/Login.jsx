@@ -15,7 +15,7 @@ const Login = () => {
 
   const login = async() => {
     try {
-        const response = await fetch('http://localhost:3000/api/users/login', {
+        const response = await fetch('/api/users/login', {
             method: 'POST',
             headers: {
                 'Content-Type' : 'application/json'
@@ -32,8 +32,19 @@ const Login = () => {
         }
         setEmail('');
         setPassword('');
-    } catch (err) {
-        console.error(`${err.name}: ${err.message}`);
+    } catch (error) {
+      
+      if (error.response) {
+        console.log('Server responded with non-success status code');
+        console.log('Status:', error.response.status);
+        console.log('Data:', error.response.data);
+      } else if (error.request) {
+        console.log('Request made but no response received');
+        console.log('Request:', error.request);
+      } else {
+        console.log('Error setting up request');
+        console.log('Error:', error.message);
+      }
     }
   }
 
@@ -43,12 +54,15 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
+    <div className='FormContainer'>
+      <div className='formCard'>
+      <div>
+      <h1>Login</h1>
+      <form className='loginForm' onSubmit={handleSubmit}>
         <div>
           <label htmlFor='email'>Email:</label>
           <input
+          className='login'
             type='email'
             id='email'
             value={email}
@@ -59,6 +73,7 @@ const Login = () => {
         <div>
           <label htmlFor='password'>Password:</label>
           <input
+          className='password'
             type='password'
             id='password'
             value={password}
@@ -66,10 +81,15 @@ const Login = () => {
             required
           />
         </div>
-        <button type='submit'>Login</button>
+        <button className='subButton' type='submit'>Login</button>
       </form>
+      <a href='/login/register'><button>Sign Up</button></a>
       <p>{message}</p>
     </div>
+    </div>
+    </div>
+    
+    
   );
 };
 

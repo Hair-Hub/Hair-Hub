@@ -7,7 +7,7 @@ export default function AllItemsComponent() {
     
     const [items, setItems] = useState([]);
     const [search, setSearch] = useState('');
-
+    
     useEffect(() => {
         const fetchItems = async () => {
             try {
@@ -22,17 +22,29 @@ export default function AllItemsComponent() {
     }, []); 
 
     return (
-        <div className="container">
-            <h1>All Items</h1>
+        <div className="search-bar">
+            <h1>Product Gallery</h1>
             <input
+                id='search'
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search items..."
+                placeholder="What are you looking for..."
+                list="search-suggestions"
+                autoComplete="off"
             />
+            <datalist id="search-suggestions">
+                <option value="shampoo"></option>
+                <option value="conditioner"></option>
+            </datalist>
+        
+            <div className='search-button'>
+                <button>Search</button>
+            </div>
+
             <div className="items-container">
                 {items.map((item) => (
-                    <Link to= {`/item/${item.id}`} key={item.id}>
+                    <Link to= {`/items/${item.id}`} key={item.id}>
                     <div className="item-card" key={item.id}>
                         <img className="item-image" src={item.picture} alt={item.name} />
                         <div className="item-details">
