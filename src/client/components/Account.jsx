@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+
+
+
 function Account() {
   const [selectedOption, setSelectedOption] = useState({
   hairtype: '',
@@ -9,9 +13,15 @@ function Account() {
 });
 
   // Handle form submission
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Submitted data:', selectedOption);
+    try {
+      const response = await axios.post('/api/users/account', selectedOption)
+      console.log('Submitted data:', response.data);
+    } catch(error) {
+      console.error('Error submitting hair profile:', error)
+    }
+  
     // You can send this data to an API or perform other actions.
   };
   // Handle input changes
