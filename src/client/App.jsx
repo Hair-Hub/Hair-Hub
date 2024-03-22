@@ -11,6 +11,7 @@ import Account from './components/Account'
 
 
 import './style.css'
+import './single-items.css'
 
 function App() {
  

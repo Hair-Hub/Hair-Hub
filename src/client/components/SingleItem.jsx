@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import '../single-items.css'
 export default function SingleItem() {
   const { id } = useParams();
   const [item, setItem] = useState(null);
-  const [reviewsWithComments, setReviewsWithComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [reviewText, setReviewText] = useState('');
   const [commentText, setCommentText] = useState('');
+  const [reviews, setReviews] = useState([]);
   
 
   useEffect(() => {
@@ -17,8 +18,8 @@ export default function SingleItem() {
         const itemResponse = await axios.get(`/api/items/${id}`);
         setItem(itemResponse.data);
 
-        const reviewsWithCommentsResponse = await axios.get(`/api/reviews/${id}`);
-        setReviewsWithComments(reviewsWithCommentsResponse.data);
+        const reviewsResponse = await axios.get(`/api/reviews/${id}`);
+        setReviews(reviewsResponse.data);
       } catch (error) {
         console.error('Error fetching data:', error);
         setError('Error fetching data. Please try again later.');
@@ -33,7 +34,7 @@ export default function SingleItem() {
     e.preventDefault();
     try {
       const response = await axios.post(`/api/reviews/item/${id}`, { reviewText });
-      setReviews([...reviewsWithComments, response.data]);
+      setReviews([...reviews, response.data]);
       setReviewText('');
     } catch (error) {
       console.error('Error submitting review:', error);
@@ -41,19 +42,25 @@ export default function SingleItem() {
   };
 
   const handleCommentSubmit = async (reviewId, e) => {
+    console.log("Review ID in handleCommentSubmit:", reviewId)
     e.preventDefault();
     try {
+        if (!reviewId) {
+            console.error("Review ID is undefined")
+            return;
+        }
       const response = await axios.post(`/api/comments/review/${reviewId}`, { commentText });
-      const updatedReviewsWithComments = reviewsWithComments.map(review => {
-        if (review.id === reviewId) {
+      const updatedReviews = reviews.map(review => {
+        if (review.reviewid === reviewId) {
             return {
                 ...review,
                 comments: [...review.comments, response.data]
             };
         }
+        
         return review;
       })
-      setReviewsWithComments(updatedReviewsWithComments);
+      setReviews(updatedReviews);
       setCommentText('')
     } catch (error) {
       console.error('Error submitting comment:', error);
@@ -69,7 +76,7 @@ export default function SingleItem() {
   }
 
   return (
-    <div>
+    <div className='single-items-container'>
       {item && (
         <article key={item.id}>
           <h2>{item.name}</h2>
@@ -82,17 +89,20 @@ export default function SingleItem() {
       <div className="reviews-comments-container">
         <h3>Reviews</h3>
         <ul>
-          {reviewsWithComments.map(review => (
+          {reviews.map(review => (
             <li key={review.id}>
               <p>Rating: {review.rating}</p>
               <p>{review.reviewtext}</p>
               <h4>Comments</h4>
               <ul>
-                {review.comments && review.comments.map(comment => (
-                    <li key={comment.commentId || generateUniqueKey()}>{comment.commentText}</li>
+                {review.comments && review.comments.map(comments => (
+                    <li key={comments.id}>{comments.commenttext}</li>
                   ))}
               </ul>
-              <form onSubmit={(e) => handleCommentSubmit(review.id, e)}>
+              <form onSubmit={(e) => {
+                console.log("Review ID:", review.id) 
+                handleCommentSubmit(review.reviewid, e)
+                }}>
                 <textarea
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
@@ -106,6 +116,7 @@ export default function SingleItem() {
       </div>
 
       {/* Review Submission Form */}
+      {console.log('Reviews:',reviews)}
       <form onSubmit={handleReviewSubmit}>
         <textarea
           value={reviewText}
