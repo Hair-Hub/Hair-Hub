@@ -18,16 +18,22 @@ usersRouter.get("/", async (req, res, next) => {
 });
 
 usersRouter.post("/login", async (req, res, next) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    next({
-      name: "MissingCredentialsError",
-      message: "Please supply both an email and password",
-    });
-  }
-  try {
-    const user = await getUser({ email, password });
-    if (user) {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({
+        error: "MissingCredentialsError",
+        message: "Please supply both an email and password",
+      });
+    }
+    try {
+      const user = await getUser({ email, password });
+      if (!user) {
+        return res.status(401).json({
+          error: "AuthenticationError",
+          message: "Invalid email or password",
+        });
+      }
+  
       const token = jwt.sign(
         {
           id: user.id,
@@ -38,85 +44,72 @@ usersRouter.post("/login", async (req, res, next) => {
           expiresIn: "1w",
         }
       );
-
+  
       res.send({
         message: "Login successful!",
         token,
       });
-    } else {
-      next({
-        name: "IncorrectCredentialsError",
-        message: "Username or password is incorrect",
-      });
+    } catch (err) {
+      console.log(err);
+      next(err);
     }
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-});
+  });
 
 usersRouter.post("/register", async (req, res, next) => {
-  const { name, email, password } = req.body;
-
-  try {
-    const _user = await getUserByEmail(email);
-
-    if (_user) {
-      next({
-        name: "UserExistsError",
-        message: "A user with that email already exists",
-      });
-    }
-
-    const user = await createUser({
-      name,
-      email,
-      password,
-    });
-
-    const token = jwt.sign(
-      {
-        id: user.id,
-        email,
-      },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "1w",
+    const { name, email, password } = req.body;
+  
+    try {
+      // Validate user inputs (e.g., email format, password strength)
+      if (!email || !password) {
+        return next({
+          name: "MissingCredentialsError",
+          message: "Please supply both an email and password",
+        });
       }
-    );
-
-    res.send({
-      message: "Sign up successful!",
-      token,
-    });
-  } catch ({ name, message }) {
-    next({ name, message });
-  }
-});
-
-usersRouter.post("/account", async (req, res, next) => {
-  try {
-    const { hairtype, hairtexture, haircolor, hairlength, hairgoals } =
-      req.body;
-    const { email } = req.user;
-    const user = await getUserByEmail({ email });
-    if (!user) {
-      return res.status(404).send({ message: "User not found" });
+  
+      // Check if user already exists
+      const existingUser = await getUserByEmail(email);
+      if (existingUser) {
+        return next({
+          name: "UserExistsError",
+          message: "A user with that email already exists",
+        });
+      }
+  
+      // Create new user
+      const user = await createUser({
+        name,
+        email,
+        password,
+      });
+  
+      res.status(201).json({ message: "User registered successfully" });
+    } catch (err) {
+      next(err);
     }
-    const updatedUser = await updatedUserProfile(email, {
-      hairtype,
-      hairtexture,
-      haircolor,
-      hairlength,
-      hairgoals,
-    });
-    res.status(200).send({
-      message: "User Profile updated successfully",
-      user: updatedUser,
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+  });
+
+usersRouter.post('/account', async (req, res, next) => {
+    const { email, hairtype, hairtexture, haircolor, hairlength, hairgoals } = req.body;
+  
+    try {
+      // Assuming `getUser` retrieves a user's account based on their email
+      const account = await getUser({ email });
+  
+      // Update the user's hair profile data
+      account.hairtype = hairtype;
+      account.hairtexture = hairtexture;
+      account.haircolor = haircolor;
+      account.hairlength = hairlength;
+      account.hairgoals = hairgoals;
+  
+      // Save the updated user account
+      await account.save();
+  
+      res.status(200).json({ message: 'Hair profile updated successfully' });
+    } catch (error) {
+      next(error); // Pass the error to the error handler middleware
+    }
+  });
 
 module.exports = usersRouter;

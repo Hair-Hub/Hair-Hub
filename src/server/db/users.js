@@ -2,16 +2,7 @@ const db = require("./client");
 const bcrypt = require("bcrypt");
 const SALT_COUNT = 10;
 
-const createUser = async ({
-  name = "first last",
-  email,
-  password,
-  hairtype,
-  hairtexture,
-  haircolor,
-  hairlength,
-  hairgoals,
-}) => {
+const createUser = async ({ name = "first last", email, password, hairtype, hairtexture, haircolor, hairlength, hairgoals }) => {
   const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
   try {
     const {
@@ -22,16 +13,7 @@ const createUser = async ({
         VALUES($1, $2, $3, $4, $5, $6, $7, $8)
         ON CONFLICT (email) DO NOTHING
         RETURNING *`,
-      [
-        name,
-        email,
-        hashedPassword,
-        hairtype,
-        hairtexture,
-        haircolor,
-        hairlength,
-        hairgoals,
-      ]
+      [name, email, hashedPassword, hairtype, hairtexture, haircolor, hairlength, hairgoals]
     );
 
     return user;
@@ -63,7 +45,7 @@ const getUserByEmail = async (email) => {
       rows: [user],
     } = await db.query(
       `
-        SELECT id, name, email, hairtype, hairtexture, haircolor, hairlength, hairgoals 
+        SELECT * 
         FROM users
         WHERE email=$1;`,
       [email]
