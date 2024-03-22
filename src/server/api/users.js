@@ -93,14 +93,27 @@ usersRouter.post('/register', async(req, res, next) => {
 
 })
 
-usersRouter.post('/account', async(req, res, next) => {
-    const {hairtype, hairtexture, haircolor, hairlength, hairgoals} = req.body;
-
+usersRouter.post('/account', async (req, res, next) => {
+    const { email, hairtype, hairtexture, haircolor, hairlength, hairgoals } = req.body;
+  
     try {
-        const account = await getUser({email})
-    } catch({hairtype, hairtexture, haircolor, hairlength, hairgoals}) {
-        next({hairtype, hairtexture, haircolor, hairlength, hairgoals})
+      // Assuming `getUser` retrieves a user's account based on their email
+      const account = await getUser({ email });
+  
+      // Update the user's hair profile data
+      account.hairtype = hairtype;
+      account.hairtexture = hairtexture;
+      account.haircolor = haircolor;
+      account.hairlength = hairlength;
+      account.hairgoals = hairgoals;
+  
+      // Save the updated user account
+      await account.save();
+  
+      res.status(200).json({ message: 'Hair profile updated successfully' });
+    } catch (error) {
+      next(error); // Pass the error to the error handler middleware
     }
-})
+  });
 
 module.exports = usersRouter;
