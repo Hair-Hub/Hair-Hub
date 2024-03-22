@@ -28,7 +28,7 @@ function App() {
       </div>
     <Routes>
       <Route path='/' element={<HomePage />}></Route>
-      <Route path='/Account' element={<Account />} />
+      <Route path='/account' element={<Account />} />
     <Route path='/login' element={<Login />} />
     <Route path='/items' element={<AllItems/>} />
     <Route path ='/items/:id' element={<SingleItem/>} />

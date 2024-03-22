@@ -90,6 +90,17 @@ usersRouter.post('/register', async(req, res, next) => {
     } catch({name, message}) {
         next({name, message})
     }
+
+})
+
+usersRouter.post('/account', async(req, res, next) => {
+    const {hairtype, hairtexture, haircolor, hairlength, hairgoals} = req.body;
+
+    try {
+        const account = await getUser({email})
+    } catch({hairtype, hairtexture, haircolor, hairlength, hairgoals}) {
+        next({hairtype, hairtexture, haircolor, hairlength, hairgoals})
+    }
 })
 
 module.exports = usersRouter;
