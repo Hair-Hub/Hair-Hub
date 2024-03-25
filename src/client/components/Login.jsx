@@ -33,7 +33,7 @@ const Login = () => {
       setEmail('');
       setPassword('');
       // Redirect to dashboard or another page
-      window.location.href = '/dashboard';
+      window.location.href = '/account';
     } catch (error) {
       setMessage(error.message);
     }

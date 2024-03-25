@@ -89,7 +89,7 @@ usersRouter.post("/register", async (req, res, next) => {
     }
   });
 
-usersRouter.post('/account', async (req, res, next) => {
+usersRouter.put('/account', async (req, res, next) => {
     const { email, hairtype, hairtexture, haircolor, hairlength, hairgoals } = req.body;
   
     try {

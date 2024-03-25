@@ -15,10 +15,10 @@ const createUser = async ({ name = "first last", email, password, hairtype, hair
         RETURNING *`,
       [name, email, hashedPassword, hairtype, hairtexture, haircolor, hairlength, hairgoals]
     );
-
-    return user;
-  } catch (err) {
-    throw err;
+    return user; // Return the inserted user data
+  } catch (error) {
+    console.error('Error creating user:', error);
+    throw error; // Rethrow the error to be handled by the caller
   }
 };
 
