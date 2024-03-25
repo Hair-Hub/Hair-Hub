@@ -15,38 +15,29 @@ const Login = () => {
 
   const login = async() => {
     try {
-        const response = await fetch('/api/users/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type' : 'application/json'
-            }, 
-            body: JSON.stringify({
-                email,
-                password
-            })
-        });
-        const result = await response.json();
-        setMessage(result.message);
-        if(!response.ok) {
-          throw(result)
-        }
-        setEmail('');
-        setPassword('');
-    } catch (error) {
-      
-      if (error.response) {
-        console.log('Server responded with non-success status code');
-        console.log('Status:', error.response.status);
-        console.log('Data:', error.response.data);
-      } else if (error.request) {
-        console.log('Request made but no response received');
-        console.log('Request:', error.request);
-      } else {
-        console.log('Error setting up request');
-        console.log('Error:', error.message);
+      const response = await fetch('/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type' : 'application/json'
+        }, 
+        body: JSON.stringify({
+          email,
+          password
+        })
+      });
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.message || 'Login failed');
       }
+      setMessage('Login successful');
+      setEmail('');
+      setPassword('');
+      // Redirect to dashboard or another page
+      window.location.href = '/account';
+    } catch (error) {
+      setMessage(error.message);
     }
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,40 +47,38 @@ const Login = () => {
   return (
     <div className='FormContainer'>
       <div className='formCard'>
-      <div>
-      <h1>Login</h1>
-      <form className='loginForm' onSubmit={handleSubmit}>
         <div>
-          <label htmlFor='email'>Email:</label>
-          <input
-          className='login'
-            type='email'
-            id='email'
-            value={email}
-            onChange={handleEmailChange}
-            required
-          />
+          <h1>Login</h1>
+          <form className='loginForm' onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor='email'>Email:</label>
+              <input
+                className='login'
+                type='email'
+                id='email'
+                value={email}
+                onChange={handleEmailChange}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor='password'>Password:</label>
+              <input
+                className='password'
+                type='password'
+                id='password'
+                value={password}
+                onChange={handlePasswordChange}
+                required
+              />
+            </div>
+            <button className='subButton' type='submit'>Login</button>
+          </form>
+          <a href='/login/register'><button>Sign Up</button></a>
+          <p>{message}</p>
         </div>
-        <div>
-          <label htmlFor='password'>Password:</label>
-          <input
-          className='password'
-            type='password'
-            id='password'
-            value={password}
-            onChange={handlePasswordChange}
-            required
-          />
-        </div>
-        <button className='subButton' type='submit'>Login</button>
-      </form>
-      <a href='/login/register'><button>Sign Up</button></a>
-      <p>{message}</p>
+      </div>
     </div>
-    </div>
-    </div>
-    
-    
   );
 };
 

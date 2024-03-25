@@ -42,6 +42,7 @@ apiRouter.use("/users", usersRouter);
 apiRouter.use("/items", itemsRouter);
 apiRouter.use("/reviews", reviewsRouter);
 apiRouter.use("/comments", commentsRouter);
+apiRouter.use("/account", usersRouter);
 
 apiRouter.use((err, req, res, next) => {
   console.error(err);

@@ -8,7 +8,7 @@ export default function NavBar() {
     <Link to='/login/register'></Link>
     <div className='icons'>
         <div>
-        <Link className='loginLink' to='/Account'><img className='icon' src={Account}/></Link>
+        <Link className='loginLink' to='/account'><img className='icon' src={Account}/></Link>
         </div>
         <div>
         <Link to='/items'><img className='icon' src={allItems} /></Link>

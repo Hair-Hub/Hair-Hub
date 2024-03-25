@@ -1,77 +1,105 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+
+
+
 function Account() {
-  const [formData, setFormData] = useState({
-    hairtype: '',
-    hairtexture: '',
-    haircolor: '',
-    hairlength: '',
-    hairGoals: '',
-    // Add other relevant fields (e.g., age, location, etc.)
-  });
+  const [selectedOption, setSelectedOption] = useState({
+  hairtype: '',
+  hairtexture: '',
+  haircolor: '',
+  hairlength: '',
+  hairgoals: '',
+});
+
   // Handle form submission
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Submitted data:', formData);
+    try {
+      const response = await axios.post('/api/users/account', selectedOption)
+      console.log('Submitted data:', response.data);
+    } catch(error) {
+      console.error('Error submitting hair profile:', error)
+    }
+  
     // You can send this data to an API or perform other actions.
   };
   // Handle input changes
   const handleInputChange = (event) => {
-    const { goals, value } = event.target;
-    setFormData((prevData) => ({
+    const { name, value } = event.target;
+    setSelectedOption((prevData) => ({
       ...prevData,
-      [goals]: value,
+      [name]: value,
     }));
   };
   return <>
   <h1>Hair Profile</h1>
   <form onSubmit={handleSubmit}>
-      <input type='' 
+      <input
+      type='text'
+      name='hairtype' 
       placeholder='Hair Type'
-      list='hairType'>
-      </input>
-      <datalist id='hairType'>
-          <option value='Straight'></option>
-          <option value='Wavy'></option>
-          <option value='Curly'></option>
-          <option value='Coiled'></option>
-      </datalist>
-      <input type='text'
-      placeholder='Hair Texture'
-      list='hairTexture'>
-      </input>
-      <datalist id='hairTexture'>
-          <option value='Fine'></option>
-          <option value='Medium'></option>
-          <option value='Thick'></option>
-      </datalist>
-      <input type='text'
-      placeholder='Hair Color'
-      list='hairColor'>
-      </input>
-      <datalist id='hairColor'>
-      <option value='Black'></option> 
-      <option value='Brown'></option> 
-      <option value='Red'></option>
-      <option value='Blonde'></option>
-      <option value='Grey'></option> 
-      <option value='Dyed'></option> 
-      </datalist>
-      <input type='text'
-      placeholder='hairLength'
-      list='hairLength'>
-      </input>
-      <datalist id='hairLength'>
-      <option value='Short'></option> 
-      <option value='Ear Length'></option> 
-      <option value='Shoulder Length'></option>
-      <option value='Down Your Back'></option>
-      </datalist>
-      <label>Hair Goals</label>
-      <input type='text'
-      value={formData.bio}
+      list='hairType'
+      value={selectedOption.hairtype}
       onChange={handleInputChange}>
       </input>
-      <button className='accButton' type='submit'></button>
+      <datalist id='hairType'>
+          <option value='Straight'/>
+          <option value='Wavy'/>
+          <option value='Curly'/>
+          <option value='Coiled'/>
+      </datalist>
+      <input 
+      type='text'
+      name='hairtexture'
+      placeholder='Hair Texture'
+      list='hairTexture'
+      value={selectedOption.hairtexture}
+      onChange={handleInputChange}>
+      </input>
+      <datalist id='hairTexture'>
+          <option value='Fine'/>
+          <option value='Medium'/>
+          <option value='Thick'/>
+      </datalist>
+      <input 
+      type='text'
+      name='haircolor'
+      placeholder='Hair Color'
+      list='hairColor'
+      value={selectedOption.haircolor}
+      onChange={handleInputChange}>
+      </input>
+      <datalist id='hairColor'>
+      <option value='Black'/> 
+      <option value='Brown'/> 
+      <option value='Red'/>
+      <option value='Blonde'/>
+      <option value='Grey'/> 
+      <option value='Dyed'/> 
+      </datalist>
+      <input 
+      type='text'
+      name='hairlength'
+      placeholder='hairLength'
+      list='hairLength'
+      value={selectedOption.hairlength}
+      onChange={handleInputChange}>
+      </input>
+      <datalist id='hairLength'>
+      <option value='Short'/> 
+      <option value='Ear Length'/> 
+      <option value='Shoulder Length'/>
+      <option value='Down Your Back'/>
+      </datalist>
+      <input 
+      type='text'
+      name='hairgoals'
+      placeholder='Hair Goals'
+      value={selectedOption.hairgoals}
+      onChange={handleInputChange}>
+      </input>
+      <button className='accButton' type='submit'>Submit</button>
   </form>
   <a href='/login'><button>Login</button></a>
   </>
