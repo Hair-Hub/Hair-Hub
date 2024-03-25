@@ -112,4 +112,24 @@ usersRouter.put('/account', async (req, res, next) => {
     }
   });
 
+  usersRouter.get('/:userId/reviews', async (req,res,next) => {
+    try {
+      const userId = req.params.userId;
+      const reviews = await getReviewsByUserId(userId)
+      res.json(reviews);
+    } catch (error) {
+      next(error)
+    }
+  })
+
+  usersRouter.get('/:userId/comments', async (req,res,next) => {
+    try {
+      const userId = req.params.userId
+      const comments = await getCommentsByUserId(userId)
+      res.json(comments)
+    }catch(error) {
+      next(error)
+    }
+  })
+
 module.exports = usersRouter;

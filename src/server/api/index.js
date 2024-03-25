@@ -13,7 +13,7 @@ apiRouter.use(async (req, res, next) => {
     next();
   } else if (auth.startsWith("Bearer ")) {
     // TODO - Get JUST the token out of 'auth'
-    const token = auth.Header.substring(7);
+    const token = auth.substring(7);
 
     try {
       const parsedToken = jwt.verify(token, "luciouslocks");
@@ -42,7 +42,6 @@ apiRouter.use("/users", usersRouter);
 apiRouter.use("/items", itemsRouter);
 apiRouter.use("/reviews", reviewsRouter);
 apiRouter.use("/comments", commentsRouter);
-apiRouter.use("/account", usersRouter);
 
 apiRouter.use((err, req, res, next) => {
   console.error(err);

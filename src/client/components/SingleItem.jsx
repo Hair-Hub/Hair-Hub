@@ -3,14 +3,14 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../single-items.css'
 export default function SingleItem() {
-  const { id } = useParams();
+  const { id, userId, itemId } = useParams();
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [reviewText, setReviewText] = useState('');
   const [commentText, setCommentText] = useState('');
   const [reviews, setReviews] = useState([]);
-  
+  const [rating, setRating] = useState('')
 
   useEffect(() => {
     async function fetchData() {
@@ -33,7 +33,12 @@ export default function SingleItem() {
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`/api/reviews/item/${id}`, { reviewText });
+      const response = await axios.post(`/api/reviews/item/${id}`, {
+        userId: userId,
+        itemId: itemId,
+        rating: rating,
+        reviewText: reviewText
+      });
       setReviews([...reviews, response.data]);
       setReviewText('');
     } catch (error) {

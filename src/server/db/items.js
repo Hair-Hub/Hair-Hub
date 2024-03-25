@@ -66,4 +66,18 @@ const getItemById = async (id) => {
   }
 };
 
-module.exports = { createItem, getAllItems, getItemByName, getItemById };
+const getItemsByCategory = async (category) => {
+  try {
+    const query = `
+    SELECT * 
+    FROM items
+    WHERE category = $1;
+    `;
+    const {rows} = await db.query(query, [category]);
+    return rows;
+  } catch(error) {
+    throw error;
+  }
+}
+
+module.exports = { createItem, getAllItems, getItemByName, getItemById, getItemsByCategory };

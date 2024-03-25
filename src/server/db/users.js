@@ -60,8 +60,40 @@ const getUserByEmail = async (email) => {
   }
 };
 
+const getReviewsByUserId = async (userId) => {
+  try {
+    const {rows: reviews} = await db.query(
+      `
+      SELECT * FROM reviews
+      WHERE userId = $1
+      `,
+      [userId]
+    );
+    return reviews;
+  } catch (error) {
+    throw error;
+  }
+}
+
+const getCommentsByUserId = async (userId) => {
+  try {
+    const {rows: comments} = await db.query(
+      `
+      SELECT * FROM comments
+      WHERE userId = $1
+      `,
+      [userId]
+    );
+    return comments;
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
   createUser,
   getUser,
   getUserByEmail,
+  getCommentsByUserId,
+  getReviewsByUserId,
 };
