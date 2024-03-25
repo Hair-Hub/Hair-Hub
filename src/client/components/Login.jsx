@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-
-const Login = () => {
+import {useNavigate} from 'react-router-dom'
+const Login = ({setToken}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-
+  
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
@@ -32,8 +32,10 @@ const Login = () => {
       setMessage('Login successful');
       setEmail('');
       setPassword('');
+      setToken(result.token)
+      localStorage.setItem('token', result.token)
       // Redirect to dashboard or another page
-      window.location.href = '/account';
+      
     } catch (error) {
       setMessage(error.message);
     }

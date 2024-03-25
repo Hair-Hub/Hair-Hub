@@ -1,7 +1,7 @@
 const express = require("express");
 const usersRouter = express.Router();
 
-const { createUser, getUser, getUserByEmail } = require("../db");
+const { createUser, getUser, getUserByEmail, getReviewsByUserId, getCommentsByUserId } = require("../db");
 
 const jwt = require("jsonwebtoken");
 
@@ -112,9 +112,9 @@ usersRouter.put('/account', async (req, res, next) => {
     }
   });
 
-  usersRouter.get('/:userId/reviews', async (req,res,next) => {
+  usersRouter.get('/reviews', async (req,res,next) => {
     try {
-      const userId = req.params.userId;
+      const userId = req.user.id;
       const reviews = await getReviewsByUserId(userId)
       res.json(reviews);
     } catch (error) {
@@ -122,9 +122,9 @@ usersRouter.put('/account', async (req, res, next) => {
     }
   })
 
-  usersRouter.get('/:userId/comments', async (req,res,next) => {
+  usersRouter.get('/comments', async (req,res,next) => {
     try {
-      const userId = req.params.userId
+      const userId = req.user.id;
       const comments = await getCommentsByUserId(userId)
       res.json(comments)
     }catch(error) {

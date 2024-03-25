@@ -1,6 +1,6 @@
 
 import {Routes, Route} from 'react-router-dom'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import Login from './components/Login';
 import NavBar from './components/navbar'
 import HomePage from './components/HomePage'
@@ -15,7 +15,13 @@ import './style.css'
 import './single-items.css'
 
 function App() {
- 
+ const [token, setToken] = useState('')
+console.log('token', token)
+ useEffect(() => {
+  const loginToken = localStorage.getItem('token')
+  if (loginToken)
+  setToken(loginToken)
+ }, [])
 
   return (<>
     <div className='navbar'>
@@ -29,8 +35,8 @@ function App() {
       </div>
     <Routes>
       <Route path='/' element={<HomePage />}></Route>
-      <Route path='/account' element={<Account />} />
-    <Route path='/login' element={<Login />} />
+      <Route path='/account' element={<Account token={token} />} />
+    <Route path='/login' element={<Login setToken={setToken} />} />
     <Route path='/items' element={<AllItems/>} />
     <Route path ='/items/:id' element={<SingleItem/>} />
     <Route path ='/login/register' element={<SignUp/>} />

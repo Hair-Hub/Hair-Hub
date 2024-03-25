@@ -3,7 +3,7 @@ import axios from 'axios';
 import {useParams} from 'react-router-dom'
 
 
-function Account() {
+function Account({token}) {
   const [selectedOption, setSelectedOption] = useState({
   hairtype: '',
   hairtexture: '',
@@ -12,28 +12,30 @@ function Account() {
   hairgoals: '',
 });
 
-const {userId} = useParams()
-
 const [reviews, setReviews] = useState([]);
 const [comments, setComments] = useState([]);
 
 useEffect (() => {
-  fetchReviewsAndComments()
-},[]);
+  if (token)
+    fetchReviewsAndComments()
+},[token]);
 
 const fetchReviewsAndComments = async () => {
   try {
-    const token = localStorage.getItem('token'); 
+   // const token = localStorage.getItem('token');
+   console.log('token', token) 
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     };
 
-    const responseReviews = await axios.get(`/api/users/${userId}/reviews`, config);
+    const responseReviews = await axios.get(`/api/users/reviews`, config);
+    console.log('Response reviews:', responseReviews.data);
     setReviews(responseReviews.data);
 
     const responseComments = await axios.get('/api/users/comments', config);
+    console.log('Response comments:', responseComments.data);
     setComments(responseComments.data);
   } catch (error) {
     console.error('Error fetching reviews and comments:', error);
@@ -134,7 +136,7 @@ const fetchReviewsAndComments = async () => {
         {reviews.map((review) => (
           <li key={review.id}>
             <p>Rating: {review.rating}</p>
-            <p>{review.reviewText}</p>
+            <p>{review.reviewtext}</p>
           </li>
         ))}
       </ul>
@@ -142,7 +144,7 @@ const fetchReviewsAndComments = async () => {
       <ul>
         {comments.map((comment) => (
           <li key={comment.id}>
-            <p>{comment.commentText}</p>
+            <p>{comment.commenttext}</p>
           </li>
         ))}
       </ul>
