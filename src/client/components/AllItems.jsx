@@ -1,17 +1,25 @@
 
 import { useEffect, useState } from 'react';
-import axios from 'axios'
+import {useParams} from 'react-router-dom';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 export default function AllItemsComponent() {
+    const {category} = useParams('');
     
     const [items, setItems] = useState([]);
     const [search, setSearch] = useState('');
     
+    
     useEffect(() => {
         const fetchItems = async () => {
             try {
-                const response = await axios.get('/api/items'); 
+                const response = await axios.get('/api/items', {
+                    params: {
+                        category: category,
+                        search: search
+                    }
+                }); 
                 console.log('items', response.data);
                 setItems(response.data);
             } catch (error) {
@@ -19,7 +27,11 @@ export default function AllItemsComponent() {
             }
         };
         fetchItems();
-    }, []); 
+    }, [category, search]); 
+
+    const filteredItems = items.filter((item) =>
+        item.name.toLowerCase().includes(search.toLowerCase())
+    );
 
     return (
         <div className="search-bar">
@@ -43,7 +55,7 @@ export default function AllItemsComponent() {
             </div>
 
             <div className="items-container">
-                {items.map((item) => (
+                {filteredItems.map((item) => (
                     <Link to= {`/items/${item.id}`} key={item.id}>
                     <div className="item-card" key={item.id}>
                         <img className="item-image" src={item.picture} alt={item.name} />

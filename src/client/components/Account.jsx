@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import {useParams} from 'react-router-dom'
 
 
-
-function Account() {
+function Account({token}) {
   const [selectedOption, setSelectedOption] = useState({
   hairtype: '',
   hairtexture: '',
@@ -11,6 +11,36 @@ function Account() {
   hairlength: '',
   hairgoals: '',
 });
+
+const [reviews, setReviews] = useState([]);
+const [comments, setComments] = useState([]);
+
+useEffect (() => {
+  if (token)
+    fetchReviewsAndComments()
+},[token]);
+
+const fetchReviewsAndComments = async () => {
+  try {
+   // const token = localStorage.getItem('token');
+   console.log('token', token) 
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const responseReviews = await axios.get(`/api/users/reviews`, config);
+    console.log('Response reviews:', responseReviews.data);
+    setReviews(responseReviews.data);
+
+    const responseComments = await axios.get('/api/users/comments', config);
+    console.log('Response comments:', responseComments.data);
+    setComments(responseComments.data);
+  } catch (error) {
+    console.error('Error fetching reviews and comments:', error);
+  }
+};
 
   // Handle form submission
   const handleSubmit = async (event) => {
@@ -101,6 +131,23 @@ function Account() {
       </input>
       <button className='accButton' type='submit'>Submit</button>
   </form>
+  <h2>Your Reviews</h2>
+      <ul>
+        {reviews.map((review) => (
+          <li key={review.id}>
+            <p>Rating: {review.rating}</p>
+            <p>{review.reviewtext}</p>
+          </li>
+        ))}
+      </ul>
+      <h2>Your Comments</h2>
+      <ul>
+        {comments.map((comment) => (
+          <li key={comment.id}>
+            <p>{comment.commenttext}</p>
+          </li>
+        ))}
+      </ul>
   <a href='/login'><button>Login</button></a>
   </>
 }

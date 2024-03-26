@@ -2,15 +2,15 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../single-items.css'
-export default function SingleItem() {
-  const { id } = useParams();
+export default function SingleItem({token}) {
+  const { id, userId } = useParams();
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [reviewText, setReviewText] = useState('');
   const [commentText, setCommentText] = useState('');
   const [reviews, setReviews] = useState([]);
-  
+  const [rating, setRating] = useState('')
 
   useEffect(() => {
     async function fetchData() {
@@ -30,38 +30,64 @@ export default function SingleItem() {
     fetchData();
   }, [id]);
 
-  const handleReviewSubmit = async (e) => {
+  const handleReviewSubmit = async (itemId, e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`/api/reviews/item/${id}`, { reviewText });
+      const response = await axios.post(`/api/reviews/item/${itemId}`, {
+        userId: userId,
+        rating: rating,
+        reviewText: reviewText
+      });
       setReviews([...reviews, response.data]);
       setReviewText('');
+      setRating('')
     } catch (error) {
       console.error('Error submitting review:', error);
     }
   };
 
+  const handleEditReview = async (reviewId, updatedReviewText) => {
+    try {
+      const response = await axios.put(`/api/reviews/${reviewId}`, { reviewText: updatedReviewText });
+      console.log('Response:', response)
+      const updatedReviews = reviews.map(review => {
+        if (review.id === reviewId) {
+          return {
+            ...review,
+            reviewText: updatedReviewText 
+          };
+        }
+        return review;
+      });
+      setReviews(updatedReviews);
+    } catch (error) {
+      console.error('Error editing review:', error);
+    }
+  };
+  
+
   const handleCommentSubmit = async (reviewId, e) => {
-    console.log("Review ID in handleCommentSubmit:", reviewId)
+    console.log("Review ID in handleCommentSubmit:", reviewId);
+    console.log("Comment text:", commentText);
     e.preventDefault();
     try {
-        if (!reviewId) {
-            console.error("Review ID is undefined")
-            return;
-        }
+      if (!reviewId) {
+        console.error("Review ID is undefined");
+        return;
+      }
       const response = await axios.post(`/api/comments/review/${reviewId}`, { commentText });
+      console.log("Comment posted:", response.data);
       const updatedReviews = reviews.map(review => {
         if (review.reviewid === reviewId) {
-            return {
-                ...review,
-                comments: [...review.comments, response.data]
-            };
+          return {
+            ...review,
+            comments: [...review.comments, response.data]
+          };
         }
-        
         return review;
-      })
+      });
       setReviews(updatedReviews);
-      setCommentText('')
+      setCommentText('');
     } catch (error) {
       console.error('Error submitting comment:', error);
     }
@@ -90,13 +116,23 @@ export default function SingleItem() {
         <h3>Reviews</h3>
         <ul>
           {reviews.map(review => (
-            <li key={review.id}>
+            <li key={review.id} className='review-item'>
               <p>Rating: {review.rating}</p>
               <p>{review.reviewtext}</p>
+              <p>Posted by: {review.username}</p>
+              {userId === review.userId && (
+                <button onClick={() => handleEditReview(review.reviewId)}>Edit Review</button>
+              )}
               <h4>Comments</h4>
               <ul>
                 {review.comments && review.comments.map(comments => (
-                    <li key={comments.id}>{comments.commenttext}</li>
+                    <li key={comments.id}className='comment-item'><p>{comments.commenttext}</p>
+                    <p>Posted by: {comments.username}</p>
+                    {userId === comments.userId && (
+                  <button onClick={() => handleEditComment(comments.id)}>Edit Comment</button>
+                )}
+                    </li>
+                    
                   ))}
               </ul>
               <form onSubmit={(e) => {
@@ -115,14 +151,21 @@ export default function SingleItem() {
         </ul>
       </div>
 
-      {/* Review Submission Form */}
-      {console.log('Reviews:',reviews)}
-      <form onSubmit={handleReviewSubmit}>
+         {/* Review Submission Form */}
+         <form onSubmit={(e) => handleReviewSubmit(id, e)}>
         <textarea
           value={reviewText}
           onChange={(e) => setReviewText(e.target.value)}
           placeholder="Add a review..."
         ></textarea>
+        <select value={rating} onChange={(e) => setRating(e.target.value)}>
+          <option value="">Select Rating</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
         <button type="submit">Submit Review</button>
       </form>
     </div>
