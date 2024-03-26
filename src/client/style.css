@@ -356,47 +356,65 @@ button{
   }
 }
 
-.hair-gallery{
-  padding-block: 1rem;
-  display: grid;
-  margin-inline: 0.8rem;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: 1fr;
-  grid-column-gap: 2rem;
-  grid-row-gap: 1rem;
-  overflow: scroll;
-  height: 45vh;
-  scroll-snap-type: mandatory;
-  scroll-padding: 1rem;
-  overflow-y: hidden;
-  overflow-x: hidden;
+.flex-container_1 {
+  display: flex;
+  justify-content: center;
 }
 
-.active {
-  scroll-snap-type: unset;
+.container {
+  width: 100wv;
+  overflow: hidden;
+  margin: 50px auto;
+  background: rgb(61, 56, 56);
+  height: calc(46vh - 100px)
 }
 
-li {
-  scroll-snap-align: center;
-  display: inline-block;
-  border-radius: 20%;
-  text-decoration: none;
+.photobanner {
+  display: flex;
+  flex-wrap: nowrap;
+  height: 100%;
+  width: auto; 
+  margin-bottom: 20px;
+  font-size: 0px;
 }
 
-li > img {
-  max-height: 15rem;
-  border-radius: 20%;
+.simg {
+  margin-right: 10px;
+  border-radius: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
-.scroll {
+.first {
+  animation: bannermove 40s linear infinite;
+}
+
+@keyframes bannermove {
+  0% {
+    margin-left: 0px;
+  }
+  100% {
+    margin-left: -100%; /* Adjust to -100% to move all images */
+  }
+}
+.banner-heading {
+  text-align: center;
+  margin: 20px;
+  padding: 20px 0;
+}
+
+.banner-heading h3 {
+  font-size: 5rem; /* Adjust the font size as needed */
+}
+
+
+
+/*.scroll {
   border: 0.025rem solid #8d6d17;
   border-radius: 0.75rem;
   margin: 1rem;
   padding: 1rem;
   background-color: #ccc;
-  display:flex;
+  display: flex;
   max-height: 300px;
-  animation: infinite;
-  animation-play-state: running;
-
 }
+*/
