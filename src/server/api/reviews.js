@@ -31,7 +31,7 @@ reviewsRouter.post("/item/:itemId", async (req, res, next) => {
     const { userId, rating, reviewText } = req.body;
     const itemId = req.params.itemId;
     const review = await createReview({ userId, itemId, rating, reviewText });
-    res.send(review);
+    res.status(201).json(review);
   } catch (error) {
     next(error);
   }

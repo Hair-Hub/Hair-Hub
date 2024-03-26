@@ -60,7 +60,8 @@ const createReview = async ({ userId, itemId, rating, reviewText }) => {
       `
         INSERT INTO reviews(userId, itemId, rating, reviewText)
         VALUES($1, $2, $3, $4)
-        RETURNING * `,
+        RETURNING * 
+        `,
       [userId, itemId, rating, reviewText]
     );
     return review;

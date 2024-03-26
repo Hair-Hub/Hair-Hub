@@ -16,6 +16,8 @@ export default function ReviewForm({ itemId }) {
       
     } catch (error) {
       console.error('Error posting review:', error);
+      if (error.response) {
+        console.error('Response data:', error.response.data);
     }
   };
 
@@ -43,4 +45,4 @@ export default function ReviewForm({ itemId }) {
       <button type="submit">Submit Review</button>
     </form>
   );
-}
+  }
