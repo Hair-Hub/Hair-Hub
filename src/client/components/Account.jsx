@@ -131,10 +131,11 @@ const fetchReviewsAndComments = async () => {
       </input>
       <button className='accButton' type='submit'>Submit</button>
   </form>
+  <div className="reviews-comments-container">
   <h2>Your Reviews</h2>
       <ul>
         {reviews.map((review) => (
-          <li key={review.id}>
+          <li key={review.id} className='review-item'>
             <p>Rating: {review.rating}</p>
             <p>{review.reviewtext}</p>
           </li>
@@ -143,11 +144,12 @@ const fetchReviewsAndComments = async () => {
       <h2>Your Comments</h2>
       <ul>
         {comments.map((comment) => (
-          <li key={comment.id}>
+          <li key={comment.id} className='comment-item'>
             <p>{comment.commenttext}</p>
           </li>
         ))}
       </ul>
+      </div>
   <a href='/login'><button>Login</button></a>
   </>
 }

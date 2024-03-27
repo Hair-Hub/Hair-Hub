@@ -66,6 +66,7 @@
 }
 
 .icons {
+  margin-top: 1rem;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -143,14 +144,14 @@ p {
   text-decoration: none;
   color: black;
   font-weight: 400;
-  font-size:larger;
+  font-size:2em;
   font-family: sans-serif;
   margin-left: 1rem;
 }
 
 .lotus {
   height: 7rem;
-  margin-right: 1rem;
+  margin-right: 3rem;
 }
 
 .container {
@@ -269,14 +270,6 @@ button{
 }
 
 
-/* Add styles for reviews and comments container */
-/* .reviews-comments-container {
-  margin-top: 40px;
-  padding: 20px;
-  background-color: #f0f0f0;
-  border-radius: 8px;
-} */
-
 /* Add styles for the comment form */
 .comment-form {
   margin-top: 20px;
@@ -393,7 +386,7 @@ button{
     margin-left: 0px;
   }
   100% {
-    margin-left: -100%; /* Adjust to -100% to move all images */
+    margin-left: -100%; 
   }
 }
 .banner-heading {
@@ -403,18 +396,7 @@ button{
 }
 
 .banner-heading h3 {
-  font-size: 5rem; /* Adjust the font size as needed */
+  font-size: 5rem; 
 }
 
 
-
-/*.scroll {
-  border: 0.025rem solid #8d6d17;
-  border-radius: 0.75rem;
-  margin: 1rem;
-  padding: 1rem;
-  background-color: #ccc;
-  display: flex;
-  max-height: 300px;
-}
-*/

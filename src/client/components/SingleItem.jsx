@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../single-items.css'
+
+
+
 export default function SingleItem({token}) {
   const { id, userId } = useParams();
   const [item, setItem] = useState(null);
@@ -13,7 +16,7 @@ export default function SingleItem({token}) {
   const [rating, setRating] = useState('')
   const [comments, setComments] = useState([]);
   const [editingReviewId, setEditingReviewId] = useState(null);
-const [editingReviewText, setEditingReviewText] = useState('');
+  const [editingReviewText, setEditingReviewText] = useState('');
   
 
   useEffect(() => {
@@ -37,11 +40,16 @@ const [editingReviewText, setEditingReviewText] = useState('');
   const handleReviewSubmit = async (itemId, e) => {
     e.preventDefault();
     try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
       const response = await axios.post(`/api/reviews/item/${itemId}`, {
         userId: userId,
         rating: rating,
         reviewText: reviewText
-      });
+      }, config);
       setReviews([...reviews, response.data]);
       setReviewText('');
       setRating('')
@@ -70,7 +78,7 @@ const [editingReviewText, setEditingReviewText] = useState('');
         }
         return review;
       });
-      setReviews(updatedReviews);
+      setReviews(updatedReviews, response.data);
       setEditingReviewId(null);
       setEditingReviewText('');
     } catch (error) {
@@ -81,27 +89,32 @@ const [editingReviewText, setEditingReviewText] = useState('');
   
 
   const handleCommentSubmit = async (reviewId, e) => {
-    console.log("Review ID in handleCommentSubmit:", reviewId);
-    console.log("Comment text:", commentText);
+    console.log("Review ID in handleCommentSubmit:", reviewId)
     e.preventDefault();
     try {
-      if (!reviewId) {
-        console.error("Review ID is undefined");
-        return;
-      }
-      const response = await axios.post(`/api/comments/review/${reviewId}`, { commentText });
-      console.log("Comment posted:", response.data);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      };
+
+        if (!reviewId) {
+            console.error("Review ID is undefined")
+            return;
+        }
+      const response = await axios.post(`/api/comments/review/${reviewId}`, { commentText }, config);
       const updatedReviews = reviews.map(review => {
         if (review.reviewid === reviewId) {
-          return {
-            ...review,
-            comments: [...review.comments, response.data]
-          };
+            return {
+                ...review,
+                comments: [...review.comments, response.data]
+            };
         }
+        
         return review;
-      });
+      })
       setReviews(updatedReviews);
-      setCommentText('');
+      setCommentText('')
     } catch (error) {
       console.error('Error submitting comment:', error);
     }
@@ -151,19 +164,19 @@ const [editingReviewText, setEditingReviewText] = useState('');
           <button onClick={() => handleEditReview(review.id, review.reviewtext)}>Edit Review</button>
         )}
         <h4>Comments</h4>
-        <ul>
-          {review.comments && review.comments.map(comment => (
-            <li key={comment.id} className='comment-item'>
-              <p>{comment.commenttext}</p>
-              <p>Posted by: {comment.username}</p>
-              {userId === comment.userId && (
-                <button onClick={() => handleEditComment(comment.id)}>Edit Comment</button>
+        <ul key={review.id}>
+          {review.comments && review.comments.map(comments => (
+            <li key={comments.id} className='comment-item'>
+              <p>{comments.commenttext}</p>
+              <p>Posted by: {comments.user}</p>
+              {userId === comments.userId && (
+                <button onClick={() => handleEditComment(comments.id)}>Edit Comment</button>
               )}
-              <button onClick={() => handleDelete(comment.id)}>Delete</button>
+              <button onClick={() => handleDelete(comments.id)}>Delete</button>
             </li>
           ))}
         </ul>
-        <form onSubmit={(e) => handleCommentSubmit(review.id, e)}>
+        <form onSubmit={(e) => handleCommentSubmit(review.reviewid, e)}>
           <textarea
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}
@@ -183,6 +196,14 @@ const [editingReviewText, setEditingReviewText] = useState('');
       value={editingReviewText}
       onChange={(e) => setEditingReviewText(e.target.value)}
     ></textarea>
+    <select value={rating} onChange={(e) => setRating(e.target.value)}>
+          <option value="">Select Rating</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
     <button type="submit">Save</button>
   </form>
 )}
