@@ -18,15 +18,6 @@ export default function CommentForm({ reviewId }) {
     }
   };
 
-  const handleDelete = async (commentId) => {
-    try {
-      await axios.delete(`/api/comments/${commentId}`);
-      setComments(comments.filter((comment) => comment.id !== commentId));
-    } catch (error) {
-      console.error('Error deleting comment:', error);
-    }
-  };
-
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -44,7 +35,6 @@ export default function CommentForm({ reviewId }) {
         {comments.map((comment) => (
           <li key={comment.id}>
             {comment.text}
-            <button onClick={() => handleDelete(comment.id)}>Delete</button>
           </li>
         ))}
       </ul>
