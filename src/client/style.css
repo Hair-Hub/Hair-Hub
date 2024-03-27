@@ -24,90 +24,148 @@
  
 }
 
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+}
+
+.form-group input {
+  width: calc(100% - 20px);
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 0 auto;
+}
+
+button {
+  width: calc(100% - 20px);
+  padding: 10px;
+  font-size: 18px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 auto;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Signup form */
+.signup-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.signup-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Login form */
+
 .loginForm {
-  display: flexbox;
+  height: 22vh;
+}
+.loginForm, .formCard {
+  display: flex;
+  flex-direction: column;
   font-size: larger;
   font-family: sans-serif;
-  margin-left: 1rem;
 }
 
-.login {
-  margin-left: 2.28rem;
-  width: 300px;
-  height:2rem;
+.loginForm .form-group, .formCard .form-group {
+  margin-bottom: 20px;
 }
 
-.password {
-  width: 300px;
-  height: 2rem;
+.loginForm .form-group input, .formCard .form-group input {
+  margin-left: 0;
 }
 
-.formCard {
+.login, .password, button {
+  width: 100%;
+}
+
+/* Container for forms */
+.FormContainer {
   display: flex;
-  background-color: #FFF7ED;
-  width: 40rem;
-  height: 20rem;
-  margin-top: 5rem;
-  margin-left: auto;
-  margin-right: auto;
+  justify-content: space-around;
   align-items: center;
 }
 
-.subButton {
-  height: 3rem;
-  width: 8rem;
-  font-size: larger;
-  margin: 1rem;
-  margin-left: 5.6rem;
+/* Container for each form */
+.formCard {
+  width: 400px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  margin-top: 2em;
 }
 
-.icon {
-  height: 5rem;
+.formCard h1 {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-.icons {
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
+.formCard form {
+  margin-bottom: 20px;
 }
 
-.loginForm {
-  display: flexbox;
-  font-size: larger;
-  font-family: sans-serif;
-  margin-left: 1rem;
+.formCard label {
+  display: block;
+  font-weight: bold;
+}
+
+.formCard input {
+  width: calc(100% - 20px);
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 0 auto;
+}
+
+.formCard button {
+  width: calc(100% - 20px);
+  padding: 10px;
+  font-size: 18px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 auto;
+}
+
+.formCard button:hover {
+  background-color: #0056b3;
 }
 
 .login {
-  margin-left: 2.28rem;
-  width: 300px;
-  height:2rem;
+  width: 100%; 
 }
 
 .password {
-  width: 300px;
-  height: 2rem;
+  width: 100%; 
 }
 
-.formCard {
-  display: flex;
-  background-color: #FFF7ED;
-  width: 40rem;
-  height: 20rem;
-  margin-top: 5rem;
-  margin-left: auto;
-  margin-right: auto;
-  align-items: center;
-}
 
-.subButton {
-  height: 3rem;
-  width: 8rem;
-  font-size: larger;
-  margin: 1rem;
-  margin-left: 5.6rem;
-}
+
+
+
+
 
 .icon {
   height: 5rem;
@@ -144,9 +202,8 @@ p {
   text-decoration: none;
   color: black;
   font-weight: 400;
-  font-size:2em;
-  font-family: sans-serif;
-  margin-left: 1rem;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 4rem;
 }
 
 .lotus {
@@ -161,7 +218,7 @@ p {
 .items-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px; /* Adjust the gap between cards */
+  gap: 20px; 
 }
 
 .item-card {
@@ -324,7 +381,7 @@ button{
 .reviews-form button {
   padding: 10px 20px;
   background-color: #CA734D;
-  color: #fff;
+  color: #FFF7ED;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -396,7 +453,14 @@ button{
 }
 
 .banner-heading h3 {
-  font-size: 5rem; 
+  font-size: 5rem;
+  font-family: 'Aromabar' ;
+   src: font-url('AromabarPersonalUse-Aye6.ttf') format('ttf');
+   font-weight: normal;
+   font-style: normal;
 }
+
+
+
 
 
