@@ -1,7 +1,12 @@
 const express = require("express");
 const itemsRouter = express.Router();
 
-const { getAllItems, getItemByName, getItemById } = require("../db/items");
+const { 
+  getAllItems, 
+  getItemByName, 
+  getItemById,
+  createItem, 
+} = require("../db/items");
 
 // Route to get all items
 itemsRouter.get("/", async (req, res, next) => {
@@ -18,6 +23,17 @@ itemsRouter.get("/", async (req, res, next) => {
     const allItems = await getAllItems();
     res.send(allItems);
     }
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Route to get added item
+addedItemRouter.post("/additem", async (req, res, next) => {
+  try {
+    const {name, brand, category, description, picture} =req.body;
+    const addedItem = await createItem({name, brand, category, description, picture});
+    res.status(201).json(addedItem);
   } catch (error) {
     next(error);
   }

@@ -9,6 +9,7 @@ import SingleItem from './components/SingleItem'
 import SignUp from './components/SignUp'
 import Account from './components/Account'
 import lotus from './assets/lotus-logo.png'
+import AddItem from './components/AddItem.jsx'
 
 
 import './style.css'
@@ -40,6 +41,7 @@ console.log('token', token)
     <Route path='/items' element={<AllItems/>} />
     <Route path ='/items/:id' element={<SingleItem token={token}/>} />
     <Route path ='/login/register' element={<SignUp/>} />
+    <Route path ='/additem' element={<AddItem/>} />
     </Routes>
     
     </>
