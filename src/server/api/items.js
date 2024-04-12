@@ -29,7 +29,7 @@ itemsRouter.get("/", async (req, res, next) => {
 });
 
 // Route to get added item
-addedItemRouter.post("/additem", async (req, res, next) => {
+itemsRouter.post("/additem", async (req, res, next) => {
   try {
     const {name, brand, category, description, picture} =req.body;
     const addedItem = await createItem({name, brand, category, description, picture});
