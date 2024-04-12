@@ -38,7 +38,7 @@ export default function AllItemsComponent() {
             <h1>Product Gallery</h1>
             <input
                 id='search'
-                type="text"
+                type="search"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="What are you looking for..."
