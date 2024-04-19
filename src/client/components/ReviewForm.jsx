@@ -13,7 +13,10 @@ export default function ReviewForm({ itemId }) {
         reviewText,
       });
       console.log('Review posted:', response.data);
-      
+
+      setRating('');
+      setReviewText('');
+      setError('');
     } catch (error) {
       console.error('Error posting review:', error);
       if (error.response) {
@@ -46,3 +49,4 @@ export default function ReviewForm({ itemId }) {
     </form>
   );
   }
+}

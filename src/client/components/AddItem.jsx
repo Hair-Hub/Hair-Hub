@@ -16,7 +16,7 @@ async function handleSubmit(e) {
     e.preventDefault()
 
     try {
-        const response = await axios.post('/api/items', {
+        const response = await axios.post('/api/items/additem', {
             name,
             brand,
             category,
@@ -54,19 +54,26 @@ return <form onSubmit={handleSubmit}>
     <label>Name</label>
     <input
     name='name'
+    type='text'
     value={name}
-    onChange={(e) => setBrand(e.target.value)}
+    onChange={(e) => setName(e.target.value)}
     placeholder='Add Product Name'/>
     </div>
     
     <div>
     <label>Brand</label>
-    <input name='brand' value={brand} onChange={(e) => setBrand(e.target.value)} />
+    <input name='brand'
+    type='text'
+    value={brand}
+    onChange={(e) => setBrand(e.target.value)} />
     </div>
     
     <div>
     <label>Description</label>
-    <input name='description' value={description} onChange={(e) => setDescription(e.target.value)} />
+    <input name='description' 
+    type='text' 
+    value={description}
+    onChange={(e) => setDescription(e.target.value)} />
     </div>
     
     <div>

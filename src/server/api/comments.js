@@ -8,10 +8,41 @@ const {
   deleteComment,
 } = require("../db/comments");
 
+const jwt = require('jsonwebtoken');
+
+const verifyToken = (req, res, next) => {
+  // Get the authorization header
+  const authHeader = req.headers['authorization'];
+  // Check if the header is present
+  if (authHeader) {
+    // Extract the token from the header
+    const token = authHeader.split(' ')[1];
+    // Verify the token
+    jwt.verify(token, 'your_secret_key', (err, user) => {
+      if (err) {
+        return res.status(403).json({ message: 'Invalid token' });
+      }
+      // If token is valid, set the user object in the request
+      req.user = user;
+      next();
+    });
+  } else {
+    // If header is not present, return 401 Unauthorized
+    res.status(401).json({ message: 'Authorization header missing' });
+  }
+};
+
+module.exports = verifyToken;
+
 // Route to create comment
-commentsRouter.post("/", async (req, res, next) => {
+commentsRouter.post("/review/:reviewId", verifyToken, async (req, res, next) => {
   try {
-    const { userId, reviewId, commentText } = req.body;
+    const { userId, commentText } = req.body;
+    const reviewId = req.params.reviewId;
+    // Ensure userId matches the user making the request
+    if (userId !== req.user.id) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
     const comment = await createComment({ userId, reviewId, commentText });
     res.status(201).json(comment);
   } catch (error) {

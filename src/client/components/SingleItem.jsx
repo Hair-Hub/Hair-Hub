@@ -89,28 +89,28 @@ export default function SingleItem({token}) {
   
 
   const handleCommentSubmit = async (reviewId, e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
     console.log("Review ID in handleCommentSubmit:", reviewId)
-    e.preventDefault();
     try {
       const config = {
         headers: {
           Authorization: `Bearer ${token}`
         }
       };
-
-        if (!reviewId) {
-            console.error("Review ID is undefined")
-            return;
-        }
+  
+      if (!reviewId) {
+        console.error("Review ID is undefined")
+        return;
+      }
       const response = await axios.post(`/api/comments/review/${reviewId}`, { commentText }, config);
       const updatedReviews = reviews.map(review => {
-        if (review.reviewid === reviewId) {
-            return {
-                ...review,
-                comments: [...review.comments, response.data]
-            };
+        if (review.id === reviewId) {
+          return {
+            ...review,
+            comments: [...review.comments, response.data]
+          };
         }
-        
+  
         return review;
       })
       setReviews(updatedReviews);
@@ -176,7 +176,7 @@ export default function SingleItem({token}) {
             </li>
           ))}
         </ul>
-        <form onSubmit={(e) => handleCommentSubmit(review.reviewid, e)}>
+        <form onSubmit={(e) => handleCommentSubmit(review.id, e)}>
           <textarea
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}

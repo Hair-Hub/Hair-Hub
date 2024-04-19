@@ -30,8 +30,8 @@ export default function AllItemsComponent() {
     }, [category, search]); 
 
     const filteredItems = items.filter((item) =>
-        item.name.toLowerCase().includes(search.toLowerCase())
-    );
+    item.name && item.name.toLowerCase().includes(search.toLowerCase())
+);
 
     return (
         <div className="search-bar">
