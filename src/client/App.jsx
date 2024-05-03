@@ -39,7 +39,7 @@ console.log('token', token)
       <Route path='/account' element={<Account token={token} />} />
     <Route path='/login' element={<Login setToken={setToken} />} />
     <Route path='/items' element={<AllItems/>} />
-    <Route path ='/items/:id' element={<SingleItem token={token}/>} />
+    <Route path ='/items/:id' element={<SingleItem setToken={setToken}/>} />
     <Route path ='/login/register' element={<SignUp/>} />
     <Route path ='/additem' element={<AddItem/>} />
     </Routes>

@@ -7,7 +7,7 @@ const getReviewsByItemId = async (itemId) => {
     SELECT 
       reviews.id AS reviewId,
       reviews.rating,
-      reviews.reviewText,
+      reviews.body,
       users.name AS reviewerName
     FROM reviews
     JOIN
@@ -22,14 +22,14 @@ const getReviewsByItemId = async (itemId) => {
 };
 
 // Function to get a single review by its ID
-const getReviewById = async (reviewId) => {
+const getReviewById = async (parentId) => {
   try {
     const query = `
     SELECT *
     FROM reviews
     WHERE id = $1;
     `;
-    const { rows } = await db.query(query, [reviewId]);
+    const { rows } = await db.query(query, [parentId]);
     return rows[0];
   } catch (error) {
     throw error;
@@ -37,14 +37,14 @@ const getReviewById = async (reviewId) => {
 };
 
 // Function to get all comments for a specific review by its ID
-const getCommentsForReview = async (reviewId) => {
+const getCommentsForReview = async (parentId) => {
   try {
     const query = `
     SELECT *
     FROM comments
-    WHERE reviewId = $1;
+    WHERE parentId = $1;
     `;
-    const { rows } = await db.query(query, [reviewId]);
+    const { rows } = await db.query(query, [parentId]);
     return rows;
   } catch (error) {
     throw error;
@@ -52,34 +52,31 @@ const getCommentsForReview = async (reviewId) => {
 };
 
 // Function to create a review
-const createReview = async ({ userId, itemId, rating, reviewText }) => {
+const createReview = async ({ id, userId, username, itemId, rating, parentId, body }) => {
   try {
-    const {
-      rows: [review],
-    } = await db.query(
-      `
-        INSERT INTO reviews(userId, itemId, rating, reviewText)
-        VALUES($1, $2, $3, $4)
+    const query =`
+        INSERT INTO reviews(id, userId, username, itemId, rating, parentId, body)
+        VALUES($1, $2, $3, $4, $5, $6, $7)
         RETURNING * 
-        `,
-      [userId, itemId, rating, reviewText]
-    );
-    return review;
+        `;
+    const values = [id, userId, username, itemId, rating, parentId, body];
+    const { rows } = await db.query(query, values);
+    return rows[0];
   } catch (error) {
     throw error;
   }
 };
 
 // Function to update a review
-const updateReview = async (reviewId, rating, reviewText) => {
+const updateReview = async (parentId, rating, body) => {
   try {
     const query = `
     UPDATE reviews
-    SET rating = $1, reviewText = $2
+    SET rating = $1, body = $2
     WHERE id = $3
     RETURNING *;
     `;
-    const values = [rating, reviewText, reviewId];
+    const values = [rating, body, parentId];
     const { rows } = await db.query(query, values);
     return rows[0];
   } catch (error) {
@@ -88,14 +85,14 @@ const updateReview = async (reviewId, rating, reviewText) => {
 };
 
 // Function to delete a review
-const deleteReview = async (reviewId) => {
+const deleteReview = async (parentId) => {
   try {
     const query = `
     DELETE FROM reviews
     WHERE id = $1;
 
     `;
-    await db.query(query, [reviewId]);
+    await db.query(query, [parentId]);
   } catch (error) {
     throw error;
   }

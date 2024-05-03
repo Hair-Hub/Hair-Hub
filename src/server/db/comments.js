@@ -1,16 +1,16 @@
 const db = require("./client");
 
-const createComment = async ({ userId, reviewId, commentText }) => {
+const createComment = async ({ id, reviewId, username, userId, parentId, body }) => {
   try {
     const {
       rows: [comment],
     } = await db.query(
       `
-        INSERT INTO comments(userId, reviewId, commentText)
-        VALUES($1,$2,$3)
+        INSERT INTO comments(id, reviewId, username, userId, parentId, body)
+        VALUES($1,$2,$3,$4,$5,$6)
         RETURNING *
         `,
-      [userId, reviewId, commentText]
+      [id, reviewId, username, userId, parentId, body]
     );
     return comment;
   } catch (error) {
@@ -18,29 +18,29 @@ const createComment = async ({ userId, reviewId, commentText }) => {
   }
 };
 
-const getCommentsByReviewId = async (reviewId) => {
+const getCommentsByParentId = async (parentId) => {
   try {
     const query = `
     SELECT *
     FROM comments
-    WHERE reviewId = $1;
+    WHERE parentId = $1;
     `;
-    const { rows } = await db.query(query, [reviewId]);
+    const { rows } = await db.query(query, [parentId]);
     return rows;
   } catch (error) {
     throw error;
   }
 };
 
-const updateComment = async (commentId, commentText) => {
+const updateComment = async (parentId, body) => {
   try {
-    const query = `
+    const query = `s
     UPDATE comments
-    SET commentText = $1
+    SET body = $1
     WHERE id = $2
     RETURNING *;
     `;
-    const values = [commentText, commentId];
+    const values = [body, parentId];
     const { rows } = await db.query(query, values);
     return rows[0];
   } catch (error) {
@@ -48,13 +48,13 @@ const updateComment = async (commentId, commentText) => {
   }
 };
 
-const deleteComment = async (commentId) => {
+const deleteComment = async (parentId) => {
   try {
     const query = `
     DELETE FROM comments
     WHERE id =$1;
     `;
-    await db.query(query, [commentId]);
+    await db.query(query, [parentId]);
   } catch (error) {
     throw error;
   }
@@ -62,7 +62,7 @@ const deleteComment = async (commentId) => {
 
 module.exports = {
   createComment,
-  getCommentsByReviewId,
+  getCommentsByParentId,
   updateComment,
   deleteComment,
 };

@@ -16,7 +16,7 @@ reviewsRouter.get("/:itemId", async (req, res, next) => {
     const reviews = await getReviewsByItemId(itemId);
 
     for (let review of reviews) {
-      const comments = await getCommentsForReview(review.reviewid);
+      const comments = await getCommentsForReview(comment.reviewId);
       review.comments = comments;
     }
     res.send(reviews);
@@ -28,9 +28,9 @@ reviewsRouter.get("/:itemId", async (req, res, next) => {
 // Route to create a review
 reviewsRouter.post("/item/:itemId", async (req, res, next) => {
   try {
-    const { userId, rating, reviewText } = req.body;
-    const itemId = req.params.itemId;
-    const review = await createReview({ userId, itemId, rating, reviewText });
+    const {id, userId, username, itemId, rating, reviewId, body } = req.body;
+    //const itemId = req.params.itemId;
+    const review = await createReview({id, userId, username, itemId, rating, parentId, body });
     res.status(201).json(review);
   } catch (error) {
     next(error);
@@ -40,9 +40,9 @@ reviewsRouter.post("/item/:itemId", async (req, res, next) => {
 // Route to update a review
 reviewsRouter.put("/:reviewId", async (req, res, next) => {
   try {
-    const { rating, reviewText } = req.body;
+    const { parentId, rating, body } = req.body;
     const reviewId = req.params.reviewId;
-    const updatedReview = await updateReview(reviewId, rating, reviewText);
+    const updatedReview = await updateReview(parentId, reviewId, rating, body);
     res.send(updatedReview);
   } catch (error) {
     next(error);

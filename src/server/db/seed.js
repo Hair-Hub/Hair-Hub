@@ -6,34 +6,46 @@ const { createComment } = require("./comments");
 
 const users = [
   {
+    userId: 1,
     name: "Emily Johnson",
     email: "emily@example.com",
     password: "securepass",
   },
   {
+    userId: 2,
     name: "Liu Wei",
     email: "liu@example.com",
     password: "strongpass",
   },
   {
+    userId: 3,
     name: "Isabella García",
     email: "bella@example.com",
     password: "pass1234",
   },
   {
+    userId: 4,
     name: "Mohammed Ahmed",
     email: "mohammed@example.com",
     password: "mysecretpassword",
   },
   {
+    userId: 5,
     name: "John Smith",
     email: "john@example.com",
     password: "password123",
   },
   {
-    name: "Mitch Anderer",
-    email: "mitch@example.com",
-    password: "password1234",
+    userId: 6,
+    name: "Ivory Watkins",
+    email: "Iw@example.com",
+    password: "Bluecheese",
+  },
+  {
+    userId: 7,
+    name: "Richard Stewart",
+    email: "rs@example.com",
+    password: "pizza",
   },
 ];
 
@@ -144,142 +156,161 @@ const reviews = [
   {
     id: 1,
     userId: 1, // Id of user who left review
+    username: "Emily Johnson",
     itemId: 1, // Id of item being reviewed
     rating: 4, // Rating given by the user out of 5
-    reviewText: "This shampoo works wonders for my curly hair!",
+    body: "This shampoo works wonders for my curly hair!",
   },
   {
     id: 2,
     userId: 3,
+    username: "Isabella García",
     itemId: 2,
     rating: 5,
-    reviewText: "Love this conditioner, it really defines my curls",
+    body: "Love this conditioner, it really defines my curls",
   },
   {
     id: 3,
     userId: 3,
+    username: "Isabella García",
     itemId: 9,
     rating: 4,
-    reviewText: "Provides good hydration for my hair. Will buy again.",
+    body: "Provides good hydration for my hair. Will buy again.",
   },
   {
     id: 4,
     userId: 4,
+    username: "Mohammed Ahmed",
     itemId: 10,
     rating: 4,
-    reviewText: "Leaves my hair feeling stronger and healthier. Great product!",
+    body: "Leaves my hair feeling stronger and healthier. Great product!",
   },
   {
     id: 5,
     userId: 1,
+    username: "Emily Johnson",
     itemId: 7,
     rating: 5,
-    reviewText: "My hair feels so smooth and shiny after using this shampoo!",
+    body: "My hair feels so smooth and shiny after using this shampoo!",
   },
   {
     id: 6,
     userId: 2,
+    username: "Liu Wei",
     itemId: 8,
     rating: 3,
-    reviewText: "Decent shampoo, but didn't do much for my dry scalp.",
+    body: "Decent shampoo, but didn't do much for my dry scalp.",
   },
   {
     id: 7,
     userId: 3,
+    username: "Isabella García",
     itemId: 3,
     rating: 3,
-    reviewText:
+    body:
       "The scent of this shampoo is nice, but it didn't do much for my hair.",
   },
   {
     id: 8,
     userId: 4,
+    username: "Mohammed Ahmed",
     itemId: 4,
     rating: 4,
-    reviewText: "Great shampoo for adding volume to my fine hair.",
+    body: "Great shampoo for adding volume to my fine hair.",
   },
   {
     id: 9,
     userId: 5,
+    username: "John Smith",
     itemId: 5,
     rating: 5,
-    reviewText:
+    body:
       "Love the masculine scent of this conditioner. Leaves my hair soft and hydrated.",
   },
   {
     id: 10,
     userId: 6,
+    username: "Ivory Watkins",
     itemId: 6,
     rating: 2,
-    reviewText:
-      "Didn't notice any difference in my hair thickness after using this conditioner.",
+    body:
+      "Love this product! Noticed a huge difference in my hair thickness after using this conditioner.",
   },
 ];
 
 const comments = [
   {
     id: 1,
-    userId: 2, // Replying user
-    reviewId: 1, // Id of review being replied to
-    commentText: "That's great to hear! I might try it for my curls too.",
+    body: "That's great to hear! I might try it for my curls too.",
+    username: "Liu Wei",
+    userId: 2, 
+    parentId: 1, 
+    
   },
   {
     id: 2,
+    body: "Thanks for your feedback! We're glad you love it.",
+    username: "Emily Johnson",
     userId: 1,
-    reviewId: 2,
-    commentText: "Thanks for your feedback! We're glad you love it.",
+    parentId: 2,
+    
   },
   {
     id: 3,
+    body:"We appreciate your support! Let us know if you need anything else.",
+    username: "Isabella García",
     userId: 3,
-    reviewId: 3,
-    commentText:
-      "We appreciate your support! Let us know if you need anything else.",
+    parentId: 3,
   },
   {
     id: 4,
+    body: "So happy to hear that! Thanks for sharing your experience.",
+    username: "Emily Johnson",
     userId: 1,
-    reviewId: 4,
-    commentText: "So happy to hear that! Thanks for sharing your experience.",
+    parentId: 4,
+    
   },
   {
     id: 5,
+    body:"That's fantastic! We aim to provide the best experience for our customers.",
+    username: "Mohammed Ahmed",
     userId: 4,
-    reviewId: 5,
-    commentText:
-      "That's fantastic! We aim to provide the best experience for our customers.",
+    parentId: 5,
   },
   {
     id: 6,
+    body:"We're sorry to hear that. Perhaps another product might work better for you.",
+    username: "Ivory Watkins",
     userId: 6,
-    reviewId: 6,
-    commentText:
-      "We're sorry to hear that. Perhaps another product might work better for you.",
+    parentId: 6,
   },
   {
     id: 7,
+    body: "Thank you for your honest feedback. We'll take note of that.",
+    username: "John Smith",
     userId: 5,
-    reviewId: 7,
-    commentText: "Thank you for your honest feedback. We'll take note of that.",
+    parentId: 7,
   },
   {
     id: 8,
+    body: "We're thrilled that you're satisfied with the results!",
+    username: "Emily Johnson",
     userId: 1,
-    reviewId: 8,
-    commentText: "We're thrilled that you're satisfied with the results!",
+    parentId: 8,
   },
   {
     id: 9,
+    body: "That's wonderful! We're delighted you enjoy the scent.",
+    username: "Isabella García",
     userId: 3,
-    reviewId: 9,
-    commentText: "That's wonderful! We're delighted you enjoy the scent.",
+    parentId: 9,
   },
   {
     id: 10,
+    body:"We apologize for the inconvenience. Please reach out to our support team for assistance.",
+    username: "Liu Wei",
     userId: 2,
-    reviewId: 10,
-    commentText:
-      "We apologize for the inconvenience. Please reach out to our support team for assistance.",
+    parentId: 10,
   },
 ];
 
@@ -300,6 +331,7 @@ const createTables = async () => {
         CREATE TABLE users(
             id SERIAL PRIMARY KEY,
             name VARCHAR(255) DEFAULT 'name',
+            username VARCHAR(255) DEFAULT 'username',
             email VARCHAR(255) UNIQUE NOT NULL,
             password VARCHAR(255) NOT NULL,
             hairtype VARCHAR(255) DEFAULT 'hairtype',
@@ -321,16 +353,20 @@ const createTables = async () => {
         CREATE TABLE reviews(
             id SERIAL PRIMARY KEY,
             userId INTEGER REFERENCES users(id),
+            username VARCHAR(255) DEFAULT 'username',
             itemId INTEGER REFERENCES items(id),
+            parentId INTEGER REFERENCES reviews(id),
             rating INTEGER NOT NULL,
-            reviewText TEXT
+            body TEXT
         )`);
     await db.query(`
         CREATE TABLE comments(
             id SERIAL PRIMARY KEY,
-            userId INTEGER REFERENCES users(id),
             reviewId INTEGER REFERENCES reviews(id),
-            commentText TEXT
+            username VARCHAR(255) DEFAULT 'username',
+            userId INTEGER REFERENCES users(id),
+            parentId INTEGER REFERENCES reviews(id),
+            body TEXT
         )`);
   } catch (err) {
     throw err;
@@ -341,6 +377,7 @@ const insertUsers = async () => {
   try {
     for (const user of users) {
       await createUser({
+        userId: user.userId,
         name: user.name,
         email: user.email,
         password: user.password,
@@ -373,10 +410,13 @@ const insertReviews = async () => {
   try {
     for (const review of reviews) {
       await createReview({
+        id: review.id,
         userId: review.userId,
+        username: review.username,
         itemId: review.itemId,
+        parentId: review.parentId,
         rating: review.rating,
-        reviewText: review.reviewText,
+        body: review.body,
       });
     }
     console.log("Seed data inserted successfully.");
@@ -389,9 +429,12 @@ const insertComments = async () => {
   try {
     for (const comment of comments) {
       await createComment({
-        userId: comment.userId,
+        id: comment.id,
         reviewId: comment.reviewId,
-        commentText: comment.commentText,
+        userId: comment.userId,
+        username: comment.username,
+        parentId: comment.parentId,
+        body: comment.body,
       });
     }
     console.log("Seed data inserted successfully.");

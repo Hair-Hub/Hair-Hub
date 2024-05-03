@@ -3,7 +3,7 @@ import {useNavigate} from 'react-router-dom'
 import axios from 'axios'
 
 
-export default function addItemForm() {
+export default function addItemForm({setToken}) {
 
 
 const [name, setName] = useState()
@@ -26,7 +26,7 @@ async function handleSubmit(e) {
         const data = response.data;
         console.log(data);
         
-        //setToken(data.token);
+        setToken(data.token);
         setName('')
         setBrand('')
         setCategory('')

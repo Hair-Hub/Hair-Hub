@@ -3,7 +3,7 @@ const commentsRouter = express.Router();
 
 const {
   createComment,
-  getCommentsByReviewId,
+  getCommentsByParentId,
   updateComment,
   deleteComment,
 } = require("../db/comments");
@@ -37,13 +37,13 @@ module.exports = verifyToken;
 // Route to create comment
 commentsRouter.post("/review/:reviewId", verifyToken, async (req, res, next) => {
   try {
-    const { userId, commentText } = req.body;
+    const { userId, username, parentId, body } = req.body;
     const reviewId = req.params.reviewId;
     // Ensure userId matches the user making the request
     if (userId !== req.user.id) {
       return res.status(403).json({ message: "Unauthorized" });
     }
-    const comment = await createComment({ userId, reviewId, commentText });
+    const comment = await createComment({ userId, username, parentId, reviewId, body });
     res.status(201).json(comment);
   } catch (error) {
     next(error);
@@ -54,7 +54,7 @@ commentsRouter.post("/review/:reviewId", verifyToken, async (req, res, next) => 
 commentsRouter.get("/review/:reviewId", async (req, res, next) => {
   try {
     const reviewId = req.params.reviewId;
-    const comments = await getCommentsByReviewId(reviewId);
+    const comments = await getCommentsByParentId(reviewId);
     if (!comments || comments.length === 0) {
       res.status(404).send("Comments not found for specified review");
     } else {
@@ -67,9 +67,9 @@ commentsRouter.get("/review/:reviewId", async (req, res, next) => {
 
 commentsRouter.post("/review/:reviewId", async (req, res, next) => {
   try {
-    const { userId, commentText } = req.body;
+    const { userId, username, parentId, body } = req.body;
     const reviewId = req.params.reviewId;
-    const comment = await createComment({ userId, reviewId, commentText });
+    const comment = await createComment({ userId, username, parentId, reviewId, body });
     res.status(201).json(comment);
   } catch (error) {
     next(error);
@@ -79,9 +79,9 @@ commentsRouter.post("/review/:reviewId", async (req, res, next) => {
 // Route to update a comment
 commentsRouter.put("/commentId", async (req, res, next) => {
   try {
-    const { commentText } = req.body;
+    const { body } = req.body;
     const commentId = req.params.commentId;
-    const updatedComment = await updateComment(commentId, commentText);
+    const updatedComment = await updateComment(commentId, body);
     res.send(updatedComment);
   } catch (error) {
     next(error);

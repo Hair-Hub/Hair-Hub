@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-export default function CommentForm({ reviewId }) {
+export default function CommentForm() {
   const [commentText, setCommentText] = useState('');
+  const [userId, setUserId] = useState('');
+  const [reviewId, setReviewId] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +22,7 @@ export default function CommentForm({ reviewId }) {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+       <form onSubmit={(e) => handleSubmit(reviewId, e)}>
         <label>
           Comment:
           <textarea

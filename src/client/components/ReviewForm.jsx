@@ -1,31 +1,41 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-export default function ReviewForm({ itemId }) {
+export default function ReviewForm() {
+  const [userId, setUserId] = useState('')
+  const [itemId, setItemId] = useState('')
   const [rating, setRating] = useState('');
+  const [reviewId, setReviewId] = useState('')
   const [reviewText, setReviewText] = useState('');
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission
     try {
       const response = await axios.post(`/api/reviews/item/${itemId}`, {
-        rating,
+        userId, 
+        itemId, 
+        rating, 
+        reviewId, 
         reviewText,
       });
       console.log('Review posted:', response.data);
-
+      
+      setUserId('')
+      setItemId('')
       setRating('');
+      setReviewId('')
       setReviewText('');
       setError('');
     } catch (error) {
       console.error('Error posting review:', error);
       if (error.response) {
         console.error('Response data:', error.response.data);
+      }
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={(e) => handleSubmit(reviewId, e)}>
       <label>
         Rating:
         <input
@@ -49,4 +59,4 @@ export default function ReviewForm({ itemId }) {
     </form>
   );
   }
-}
+
