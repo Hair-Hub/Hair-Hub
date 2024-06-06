@@ -10,6 +10,8 @@ import SignUp from './components/SignUp'
 import Account from './components/Account'
 import lotus from './assets/lotus-logo.png'
 import AddItem from './components/AddItem.jsx'
+import CommentForm from './components/CommentForm.jsx'
+import ReviewForm from './components/ReviewForm.jsx'
 
 
 import './style.css'

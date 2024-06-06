@@ -10,13 +10,13 @@ const {
 } = require("../db/reviews");
 
 // Route to get single review by ID along with comments
-reviewsRouter.get("/:itemId", async (req, res, next) => {
+reviewsRouter.get("item/:itemId", async (req, res, next) => {
   try {
     const itemId = req.params.itemId;
     const reviews = await getReviewsByItemId(itemId);
 
     for (let review of reviews) {
-      const comments = await getCommentsForReview(comment.reviewId);
+      const comments = await getCommentsForReview(parentId);
       review.comments = comments;
     }
     res.send(reviews);
@@ -28,9 +28,9 @@ reviewsRouter.get("/:itemId", async (req, res, next) => {
 // Route to create a review
 reviewsRouter.post("/item/:itemId", async (req, res, next) => {
   try {
-    const {id, userId, username, itemId, rating, reviewId, body } = req.body;
+    const {id, userId, username, itemId, rating, body } = req.body;
     //const itemId = req.params.itemId;
-    const review = await createReview({id, userId, username, itemId, rating, parentId, body });
+    const review = await createReview({id, userId, username, itemId, rating, body });
     res.status(201).json(review);
   } catch (error) {
     next(error);

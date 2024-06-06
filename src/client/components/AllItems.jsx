@@ -27,11 +27,13 @@ export default function AllItemsComponent() {
             }
         };
         fetchItems();
+    
     }, [category, search]); 
 
     const filteredItems = items.filter((item) =>
     item.name && item.name.toLowerCase().includes(search.toLowerCase())
 );
+
 
     return (
         <div className="search-bar">

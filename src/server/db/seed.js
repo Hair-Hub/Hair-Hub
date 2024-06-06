@@ -158,7 +158,7 @@ const reviews = [
     userId: 1, // Id of user who left review
     username: "Emily Johnson",
     itemId: 1, // Id of item being reviewed
-    rating: 4, // Rating given by the user out of 5
+    rating: 3, // Rating given by the user out of 5
     body: "This shampoo works wonders for my curly hair!",
   },
   {
@@ -166,7 +166,7 @@ const reviews = [
     userId: 3,
     username: "Isabella García",
     itemId: 2,
-    rating: 5,
+    rating: 3,
     body: "Love this conditioner, it really defines my curls",
   },
   {
@@ -174,7 +174,7 @@ const reviews = [
     userId: 3,
     username: "Isabella García",
     itemId: 9,
-    rating: 4,
+    rating: 3,
     body: "Provides good hydration for my hair. Will buy again.",
   },
   {
@@ -182,7 +182,7 @@ const reviews = [
     userId: 4,
     username: "Mohammed Ahmed",
     itemId: 10,
-    rating: 4,
+    rating: 3,
     body: "Leaves my hair feeling stronger and healthier. Great product!",
   },
   {
@@ -190,7 +190,7 @@ const reviews = [
     userId: 1,
     username: "Emily Johnson",
     itemId: 7,
-    rating: 5,
+    rating: 3,
     body: "My hair feels so smooth and shiny after using this shampoo!",
   },
   {
@@ -198,7 +198,7 @@ const reviews = [
     userId: 2,
     username: "Liu Wei",
     itemId: 8,
-    rating: 3,
+    rating: 2,
     body: "Decent shampoo, but didn't do much for my dry scalp.",
   },
   {
@@ -206,7 +206,7 @@ const reviews = [
     userId: 3,
     username: "Isabella García",
     itemId: 3,
-    rating: 3,
+    rating: 2,
     body:
       "The scent of this shampoo is nice, but it didn't do much for my hair.",
   },
@@ -215,7 +215,7 @@ const reviews = [
     userId: 4,
     username: "Mohammed Ahmed",
     itemId: 4,
-    rating: 4,
+    rating: 3,
     body: "Great shampoo for adding volume to my fine hair.",
   },
   {
@@ -223,7 +223,7 @@ const reviews = [
     userId: 5,
     username: "John Smith",
     itemId: 5,
-    rating: 5,
+    rating: 3,
     body:
       "Love the masculine scent of this conditioner. Leaves my hair soft and hydrated.",
   },
@@ -232,7 +232,7 @@ const reviews = [
     userId: 6,
     username: "Ivory Watkins",
     itemId: 6,
-    rating: 2,
+    rating: 3,
     body:
       "Love this product! Noticed a huge difference in my hair thickness after using this conditioner.",
   },
